@@ -1,0 +1,12 @@
+# environment congfiguration
+.env
+.env.me
+.env.previous
+
+# dependencies
+node_modules
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
