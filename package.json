@@ -17,7 +17,16 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "dotenv-vault": "npx dotenv-vault@latest ",
+    "vault:new": "dotenv-vault new",
+    "vault:push": "dotenv-vault push",
+    "vault:pull": "dotenv-vault pull",
+    "vault:build": "dotenv-vault build",
+    "vault:open": "dotenv-vault open",
+    "vault:open:ci": "dotenv-vault open ci",
+    "vault:login": "dotenv-vault login",
+    "vault:keys:ci": "dotenv-vault keys ci"
   },
   "dependencies": {
     "@nestjs/common": "^10.2.1",
