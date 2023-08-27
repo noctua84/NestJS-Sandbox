@@ -21,6 +21,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Install dependencies
+        run: npm ci
+
       - name: Qodana Scan
         uses: JetBrains/qodana-action@v2023.2
         env:
