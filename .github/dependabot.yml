@@ -13,9 +13,7 @@ updates:
       prefix: "chore(deps):"
       prefix-development: "chore(deps-dev):"
       include: "scope"
-    milestone:
-      title: "Dependabot Updates"
-      description: "All Dependabot updates"
+    milestone: 1
     target-branch: "develop"
 
   - package-ecosystem: "github-actions"
@@ -29,7 +27,5 @@ updates:
     commit-message:
       prefix: "chore(deps-actions):"
       include: "scope"
-    milestone:
-      title: "Dependabot Updates"
-      description: "All Dependabot updates"
-    target-branch: "develop
+    milestone: 1
+    target-branch: "develop"

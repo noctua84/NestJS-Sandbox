@@ -1,0 +1,120 @@
+# Development workflow for this repository.
+# It runs the following Jobs:
+# 1. Linting (ESLint)
+# 2. Formatting (Prettier)
+# 3. Unit Tests
+# 4. Integration Tests
+name: CI Development Pipeline
+
+on:
+  push:
+    branches:
+      - development
+      - feature/*
+
+jobs:
+  linting:
+    name: Linting (ESLint)
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: linting
+        run: npm run lint
+
+      - name: Check if code has changed
+        id: check_lint_changes
+        run: git diff --quiet HEAD -- || echo "::set-output name=changed::true"
+
+      - name: Persist changes in code
+        if: steps.check_lint_changes.outputs.changed == 'true'
+        run: |
+          git add .
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git commit -m "chore(eslint): Fix linting errors"
+          git push
+
+  formatting:
+    name: Formatting (Prettier)
+    runs-on: ubuntu-latest
+    needs: linting
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Pull latest changes
+        run: git pull
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: formatting
+        run: npm run format
+
+      - name: Check if code has changed
+        id: check_formatting_changes
+        run: git diff --quiet HEAD -- || echo "::set-output name=changed::true"
+
+      - name: Persist changes in code
+        if: steps.check_formatting_changes.outputs.changed == 'true'
+        run: |
+          git add .
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git commit -m "chore(prettier): Fix linting errors"
+          git push
+
+  unit_tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: unit testing
+        run: npm test
+
+  integration_tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+      
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+        
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Integration Tests
+        run: npm run test:e2e
