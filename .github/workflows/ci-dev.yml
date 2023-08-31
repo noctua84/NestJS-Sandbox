@@ -117,4 +117,4 @@ jobs:
         run: npm ci
       
       - name: Integration Tests
-        run: npm test:e2e
+        run: npm run test:e2e
