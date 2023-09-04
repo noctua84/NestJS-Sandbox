@@ -29,7 +29,7 @@
     "vault:keys:ci": "dotenv-vault keys ci"
   },
   "dependencies": {
-    "@nestjs/common": "^10.2.1",
+    "@nestjs/common": "^10.2.4",
     "@nestjs/core": "^10.2.4",
     "@nestjs/platform-express": "^10.2.4",
     "dotenv-vault": "^1.25.0",
