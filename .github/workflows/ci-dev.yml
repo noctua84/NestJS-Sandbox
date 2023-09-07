@@ -9,7 +9,7 @@ name: CI Development Pipeline
 on:
   push:
     branches:
-      - development
+      - develop
       - feature/*
 
 jobs:
