@@ -10,3 +10,9 @@ node_modules
 .flaskenv*
 !.env.project
 !.env.vault
+
+# build output
+dist/**/*
+
+# repl history
+.nestjs_repl_history
