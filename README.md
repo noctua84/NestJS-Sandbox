@@ -28,6 +28,8 @@ Importand: the labels and milestones mentioned in the configuration need to be p
 
 ## Feature List:
 This section contains a list of features, that are implemented or planned. As the application has no definite targed so does this list. It will be updated accordingly
+- Healthchecks
+- Metrics (Prometheus)
 
 ## Documentation:
 [dotenv-vault](./documentation/dotenv-vault.md)
