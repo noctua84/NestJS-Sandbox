@@ -17,8 +17,8 @@ export class HealthController {
     check() {
         const indicators = [];
 
-        indicators.push(
-            this.http.pingCheck('web UI', 'https://localhost:3000/'),
+        indicators.push(() =>
+            this.http.pingCheck('API', 'http://localhost:3000/'),
         );
 
         return this.health.check(indicators);
