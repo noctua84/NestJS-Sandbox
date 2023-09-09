@@ -13,7 +13,6 @@ A real continious integration approach would do everything on the main branch an
 
 ## Technologies used:
 The following list contains technologies and approaches, that are used/demoed in the application.
-- [dotenv-vault](https://www.dotenv.org) is a new way to safely store environment variables. It works wi,th an encrypted .env.vault file and requires an account on dotenv.org. It is recommended though to set up your own account if you want to use your own .env config.
 
 ## Tools used:
 The following list contains tools that are used in the pipelines
@@ -22,14 +21,24 @@ The following list contains tools that are used in the pipelines
 Importand: the labels and milestones mentioned in the configuration need to be present in the respective github project.
 - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) is used for commits and utilizes [commitizen](https://github.com/commitizen/cz-cli). (free tool)
 - [Release Please](https://github.com/googleapis/release-please) is used for release and changelog automation in the [CI-Pipeline](./.github/workflows/ci.yml). It depends on conventional-commits-style of commits. (free tool)
+- [NestJS-Devtools](devtools.nestjs.com) is a tool to analyse and debug your local NestJS application (paid tool)
+- [dotenv-Vault](https://www.dotenv.org/docs) is a tool to securly distribute your environment configurations across platforms and teams. It is a new way to safely store environment variables. It works with an encrypted .env.vault file that is save to add to version controll and requires an account on dotenv.org. It is recommended though to set up your own account if you want to use your own .env config. See [here](#dotenv-vault) for more info about the integration into this app. (free tool)
 
 ## NestJS integrated tools:
 - [Read-Eval-Print-Loop(REPL)](docs.nestjs.com/recipes/repl) is a simple interactive environment for dependency graph and to try out methods from providers and/or controllers from the terminal.
 
 ## Feature List:
-This section contains a list of features, that are implemented or planned. As the application has no definite targed so does this list. It will be updated accordingly
-- Healthchecks
-- Metrics (Prometheus)
+This section contains a list of features, that are implemented and/or planned. As the application has no definite targed so does this list. It will be updated accordingly
+- [ ] Metrics with Prometheus (default metrics)
+- [x] Healthcheck with Terminus (certain endpoints and database)
+- [ ] Databaseinteraction with Prisma (Postgresql, MongoDB)
+- [ ] Migrations
+- [ ] API documentation with OpenAPI
+- [ ] Unit tests with Jest
+- [ ] Configuration with NestJS Config
+- [ ] Configuration schema and validation with Joi
 
 ## Documentation:
-[dotenv-vault](./documentation/dotenv-vault.md)
+This section lists topics, that have their own file, where they are discussed in detail but in scope of the application.  
+  
+### [dotenv-vault](./documentation/dotenv-vault.md)
