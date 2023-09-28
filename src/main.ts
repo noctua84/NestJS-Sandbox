@@ -1,14 +1,20 @@
 import { NestFactory, PartialGraphHost } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { writeFileSync } from 'fs';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule, {
         snapshot: true,
         abortOnError: false,
     });
-    await app.listen(3000);
+
+    const configService = app.get(ConfigService);
+    const port = configService.get('server.port');
+
+    await app.listen(port);
 }
+
 bootstrap()
     .then(() => {
         console.log('NestJS server started');
