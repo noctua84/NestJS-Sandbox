@@ -2,18 +2,19 @@ import Joi from 'joi';
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { HealthModule } from './health/health.module';
+import { HealthModule } from './monitoring/health/health.module';
 import { DevtoolsModule } from '@nestjs/devtools-integration';
 import { ConfigModule } from '@nestjs/config';
 import serverConfig, { serverConfigSchema } from './config/server.config';
-import { MetricsModule } from './metrics/metrics.module';
+import { MetricsModule } from './monitoring/metrics/metrics.module';
 import monitoringConfig, {
     healthCheckConfigSchema,
     metricsConfigSchema,
 } from './config/monitoring.config';
-import { RouteMetricsMiddleware } from './metrics/middleware/route/route.metrics.middleware';
+import { RouteMetricsMiddleware } from './monitoring/metrics/middleware/route/route.metrics.middleware';
 import { FeatureConfigModule } from './config/featureconfig/featureconfig.module';
 import { FeatureConfigService } from './config/featureconfig/featureconfig.service';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
     imports: [
@@ -34,6 +35,7 @@ import { FeatureConfigService } from './config/featureconfig/featureconfig.servi
         }),
         MetricsModule,
         FeatureConfigModule,
+        PrismaModule,
     ],
     controllers: [AppController],
     providers: [AppService, FeatureConfigService],
