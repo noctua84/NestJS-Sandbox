@@ -3,7 +3,7 @@ import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { TerminusModule } from '@nestjs/terminus';
 import { HealthController } from './health.controller';
 import { FeatureConfigService } from 'src/config/featureconfig/featureconfig.service';
-import { RouteMetricsMiddleware } from 'src/metrics/middleware/route/route.metrics.middleware';
+import { RouteMetricsMiddleware } from 'src/monitoring/metrics/middleware/route/route.metrics.middleware';
 import { FeatureConfigModule } from 'src/config/featureconfig/featureconfig.module';
 
 @Module({
