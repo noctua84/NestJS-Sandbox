@@ -100,8 +100,8 @@ jobs:
       - name: unit testing
         run: npm test
 
-  integration_tests:
-    name: Integration Tests
+  e2e_tests:
+    name: End to End Tests
     runs-on: ubuntu-latest
       
     steps:
