@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
 import client, { Counter, Histogram, Registry } from 'prom-client';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 interface IMetricsService {
     getMetrics(): Promise<string>;
@@ -7,38 +9,44 @@ interface IMetricsService {
 
 @Injectable()
 export class MetricsService implements IMetricsService {
-    private client: Registry;
+    private register: Registry;
+    private prisma: PrismaClient;
+    private metricsCollection: string[];
 
-    constructor(client: Registry) {
-        this.client = client;
+    constructor(register: Registry, prismaService: PrismaService) {
+        this.register = register;
+        this.prisma = prismaService.getPrismaClient();
     }
 
     async getMetrics(): Promise<string> {
         try {
-            // TODO: Add metrics for prisma.
-            return await this.client.metrics();
+            this.metricsCollection = [
+                await this.register.metrics(),
+                await this.prisma.$metrics.prometheus(),
+            ];
+
+            return this.metricsCollection.join('\n');
         } catch (error) {
-            // Handle the error here
             console.error('Error retrieving metrics:', error);
             return '';
         }
     }
 
     getPromClient(): Registry {
-        return this.client;
+        return this.register;
     }
 
     registerCounter(name: string, help: string, labelNames: string[]): Counter {
-        if (!this.client.getSingleMetric(name)) {
+        if (!this.register.getSingleMetric(name)) {
             return new client.Counter({
                 name,
                 help,
                 labelNames,
-                registers: [this.client],
+                registers: [this.register],
             });
         }
 
-        return this.client.getSingleMetric(name) as Counter;
+        return this.register.getSingleMetric(name) as Counter;
     }
 
     registerHistogram(
@@ -47,16 +55,16 @@ export class MetricsService implements IMetricsService {
         labelNames: string[],
         buckets: number[],
     ): Histogram {
-        if (!this.client.getSingleMetric(name)) {
+        if (!this.register.getSingleMetric(name)) {
             return new client.Histogram({
                 name,
                 help,
                 labelNames,
                 buckets,
-                registers: [this.client],
+                registers: [this.register],
             });
         }
 
-        return this.client.getSingleMetric(name) as Histogram;
+        return this.register.getSingleMetric(name) as Histogram;
     }
 }
