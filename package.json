@@ -113,5 +113,9 @@
     ],
     "ext": "prisma",
     "exec": "prisma generate"
+  },
+  "prisma": {
+    "seed": "./prisma/seed.ts",
+    "schema": "prisma/schema.prisma"
   }
 }
