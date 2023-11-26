@@ -18,10 +18,9 @@ export class HealthController {
     @HealthCheck()
     check() {
         const indicators = [];
+        const baseUrl = this.config.get('server.baseUrl');
 
-        indicators.push(() =>
-            this.http.pingCheck('API', 'http://localhost:3000/'),
-        );
+        indicators.push(() => this.http.pingCheck('API', `${baseUrl}/`));
 
         return this.health.check(indicators);
     }

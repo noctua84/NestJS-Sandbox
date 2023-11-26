@@ -16,3 +16,6 @@ dist/**/*
 
 # repl history
 .nestjs_repl_history
+
+# nestjs dev tools
+graph.json

@@ -28,7 +28,8 @@
     "vault:open": "dotenv-vault open",
     "vault:open:ci": "dotenv-vault open ci",
     "vault:login": "dotenv-vault login",
-    "vault:keys:ci": "dotenv-vault keys ci"
+    "vault:keys:ci": "dotenv-vault keys ci",
+    "watch:prisma": "nodemon"
   },
   "dependencies": {
     "@nestjs/axios": "^3.0.1",
@@ -38,9 +39,11 @@
     "@nestjs/devtools-integration": "^0.1.5",
     "@nestjs/platform-express": "^10.2.10",
     "@nestjs/terminus": "^10.1.1",
+    "@prisma/client": "^5.3.1",
     "axios": "^1.6.2",
     "dotenv-vault": "^1.25.0",
     "joi": "^17.11.0",
+    "prisma": "^5.3.1",
     "prom-client": "^15.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
@@ -61,6 +64,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",
     "jest": "29.7.0",
+    "jest-mock-extended": "^3.0.5",
     "npm-check-updates": "^16.14.11",
     "prettier": "^3.1.0",
     "source-map-support": "^0.5.21",
@@ -92,5 +96,12 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "nodemonConfig": {
+    "watch": [
+      "prisma/schema.prisma"
+    ],
+    "ext": "prisma",
+    "exec": "prisma generate"
   }
 }
