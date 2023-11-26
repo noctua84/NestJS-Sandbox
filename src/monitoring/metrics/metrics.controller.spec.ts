@@ -3,19 +3,31 @@ import { MetricsController } from './metrics.controller';
 import { MetricsService } from './metrics.service';
 import { InternalServerErrorException } from '@nestjs/common';
 import { Registry } from 'prom-client';
+import { PrismaClient } from '@prisma/client';
+import {
+    MockContext,
+    createMockContext,
+} from '../../../test/mocks/prisma.mock';
 
 describe('MetricsController', () => {
     let controller: MetricsController;
     let mockRegistry: Registry;
+    let mockPrismaClient: MockContext['prisma'];
 
     beforeEach(async () => {
         mockRegistry = new Registry();
+        const mockContext = createMockContext();
+        mockPrismaClient = mockContext.prisma;
 
         const module: TestingModule = await Test.createTestingModule({
             controllers: [MetricsController],
             providers: [
                 MetricsService,
                 { provide: Registry, useValue: mockRegistry },
+                {
+                    provide: PrismaClient,
+                    useValue: mockPrismaClient,
+                },
             ],
         }).compile();
 

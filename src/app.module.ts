@@ -15,6 +15,8 @@ import { RouteMetricsMiddleware } from './monitoring/metrics/middleware/route/ro
 import { FeatureConfigModule } from './config/featureconfig/featureconfig.module';
 import { FeatureConfigService } from './config/featureconfig/featureconfig.service';
 import { PrismaModule } from './prisma/prisma.module';
+import { MetricsService } from './monitoring/metrics/metrics.service';
+import { PrismaService } from './prisma/prisma.service';
 
 @Module({
     imports: [
@@ -38,7 +40,12 @@ import { PrismaModule } from './prisma/prisma.module';
         PrismaModule,
     ],
     controllers: [AppController],
-    providers: [AppService, FeatureConfigService],
+    providers: [
+        AppService,
+        FeatureConfigService,
+        MetricsService,
+        PrismaService,
+    ],
 })
 export class AppModule {
     constructor(private readonly featureFlags: FeatureConfigService) {}

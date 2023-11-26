@@ -4,6 +4,6 @@ import { PrismaClient } from '@prisma/client';
 
 @Module({
     providers: [PrismaService, PrismaClient],
-    exports: [PrismaService],
+    exports: [PrismaService, PrismaClient],
 })
 export class PrismaModule {}

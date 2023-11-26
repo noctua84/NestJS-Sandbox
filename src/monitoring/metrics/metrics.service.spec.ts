@@ -1,13 +1,21 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MetricsService } from './metrics.service';
 import { Registry } from 'prom-client';
+import {
+    MockContext,
+    createMockContext,
+} from '../../../test/mocks/prisma.mock';
+import { PrismaClient } from '@prisma/client';
 
 describe('HealthService', () => {
     let service: MetricsService;
     let mockRegistry: Registry;
+    let mockPrismaClient: MockContext['prisma'];
 
     beforeEach(async () => {
         mockRegistry = new Registry();
+        const mockContext = createMockContext();
+        mockPrismaClient = mockContext.prisma;
 
         const module: TestingModule = await Test.createTestingModule({
             providers: [
@@ -15,6 +23,10 @@ describe('HealthService', () => {
                 {
                     provide: Registry,
                     useValue: mockRegistry,
+                },
+                {
+                    provide: PrismaClient,
+                    useValue: mockPrismaClient,
                 },
             ],
         }).compile();
