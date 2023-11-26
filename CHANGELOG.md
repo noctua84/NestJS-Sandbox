@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.4.0](https://github.com/noctua84/NestJS-Sandbox/compare/v0.3.0...v0.4.0) (2023-11-26)
+
+
+### Features
+
+* **db seeds:** added skeleton for database seeding ([12ebcb9](https://github.com/noctua84/NestJS-Sandbox/commit/12ebcb93c04123fd5907864b127598802053d359))
+* **metrics:** added reg methods for gauge and summery and error code tracker ([05b846c](https://github.com/noctua84/NestJS-Sandbox/commit/05b846c26184176c6a2dc0af71ec904691f4319a))
+* **prisma:** enabled postgres extension support in schema.prisma ([2c8af62](https://github.com/noctua84/NestJS-Sandbox/commit/2c8af6231fed409726b34fc30cf733957bb683b8))
+
+
+### Bug Fixes
+
+* **metrics:** fixed a bug where metrics could be atempted to be registerd more than once ([9916412](https://github.com/noctua84/NestJS-Sandbox/commit/9916412b415cde2c24f5b06f6b7ce20f9d36d153))
+
 ## [0.3.0](https://github.com/noctua84/NestJS-Sandbox/compare/v0.2.0...v0.3.0) (2023-11-26)
 
 
