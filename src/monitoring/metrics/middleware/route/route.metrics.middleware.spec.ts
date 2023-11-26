@@ -1,20 +1,48 @@
 import { RouteMetricsMiddleware } from './route.metrics.middleware';
 import client from 'prom-client';
 import { Request, Response } from 'express';
-import sinon from 'sinon';
+import { MetricsService } from '../../metrics.service';
+import { Test, TestingModule } from '@nestjs/testing';
+import { metricsServiceMock } from '../../../../../test/mocks/metrics.mock';
 
 describe('RouteMetricsMiddleware', () => {
     let req: Request;
     let res: Response;
-    let next: sinon.SinonSpy;
+    let next: jest.Mock;
     let middleware: RouteMetricsMiddleware;
+    let mockMetricsService: Partial<MetricsService>;
+    let finishCallback: () => void;
 
-    beforeEach(() => {
-        req = {} as Request;
+    beforeEach(async () => {
+        mockMetricsService = metricsServiceMock;
+
+        finishCallback = jest.fn();
+        req = { originalUrl: '/test' } as Request;
         res = {} as Response;
-        next = sinon.spy();
-        middleware = new RouteMetricsMiddleware(client);
+        res.on = jest.fn().mockImplementation((event, callback) => {
+            if (event === 'finish') {
+                finishCallback = callback;
+            }
+        });
+        next = jest.fn();
+
+        const module: TestingModule = await Test.createTestingModule({
+            providers: [
+                RouteMetricsMiddleware,
+                {
+                    provide: MetricsService,
+                    useValue: mockMetricsService,
+                },
+            ],
+        }).compile();
+
+        middleware = module.get<RouteMetricsMiddleware>(RouteMetricsMiddleware);
+
         client.register.clear();
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     describe('create a middleware instance', () => {
@@ -23,130 +51,75 @@ describe('RouteMetricsMiddleware', () => {
         });
     });
 
-    describe('test the overall, success and failure counters', () => {
-        it('should increase the requests total and successful requests total counters', async () => {
-            req.originalUrl = '/test';
-            res.statusCode = 200;
-            res.on = (event, callback) => {
-                if (event === 'finish') {
-                    callback();
-                }
-
-                return res;
-            };
-
+    describe('Request handling', () => {
+        it('should correctly extract the endpoint from the request object and register the appropriate counters and histograms', () => {
             middleware.use(req, res, next);
+            finishCallback();
 
-            const metrics = await client.register.metrics();
-            const requestsTotal = client.register.getSingleMetric(
+            expect(next).toHaveBeenCalled();
+
+            expect(mockMetricsService.registerCounter).toHaveBeenCalledWith(
                 'test_requests_total',
+                'The total number of requests',
+                ['route', 'test', 'all'],
             );
-            const successfulRequestsTotal = client.register.getSingleMetric(
+            expect(mockMetricsService.registerCounter).toHaveBeenCalledWith(
                 'test_successful_requests_total',
+                'The total number of successful requests',
+                ['route', 'test', 'success'],
             );
-
-            expect(requestsTotal).toBeDefined();
-            expect(successfulRequestsTotal).toBeDefined();
-
-            setTimeout(() => {
-                expect(metrics).toContain(
-                    'test_successful_requests_total{route="test",success="success"} 1',
-                );
-                expect(metrics).toContain(
-                    'test_requests_total{route="test",all="all"} 1',
-                );
-            }, 100);
-        });
-
-        it('should increase the requests total and failed requests total counters', async () => {
-            req.originalUrl = '/test';
-            res.statusCode = 400;
-            res.on = (event, callback) => {
-                if (event === 'finish') {
-                    callback();
-                }
-
-                return res;
-            };
-
-            middleware.use(req, res, next);
-
-            const metrics = await client.register.metrics();
-            const requestsTotal = client.register.getSingleMetric(
-                'test_requests_total',
-            );
-            const failedRequestsTotal = client.register.getSingleMetric(
+            expect(mockMetricsService.registerCounter).toHaveBeenCalledWith(
                 'test_failed_requests_total',
+                'The total number of failed requests',
+                ['route', 'test', 'error'],
+            );
+            expect(mockMetricsService.registerHistogram).toHaveBeenCalledWith(
+                'test_response_time',
+                'The response time in seconds',
+                ['route', 'test', 'time'],
+                [0.1, 0.2, 0.3, 0.5, 1, 1.5, 2, 3, 4, 5, 10],
             );
 
-            expect(requestsTotal).toBeDefined();
-            expect(failedRequestsTotal).toBeDefined();
-
-            setTimeout(() => {
-                expect(metrics).toContain(
-                    'test_failed_requests_total{route="test",error="error"} 1',
-                );
-                expect(metrics).toContain(
-                    'test_requests_total{route="test",all="all"} 1',
-                );
-            }, 100);
+            expect(mockMetricsService.registerCounter).toHaveBeenCalledTimes(3);
+            expect(mockMetricsService.registerHistogram).toHaveBeenCalledTimes(
+                1,
+            );
         });
-    });
 
-    describe('test the duration histogram', () => {
-        it('should update the request duration histogram for a successful request', async () => {
-            req.originalUrl = '/test';
-            res.statusCode = 200;
-            res.on = (event: string, callback) => {
-                if (event === 'finish') {
-                    callback();
-                }
-
-                return res;
-            };
+        it('should correctly handle the case where the endpoint is "/" and replace it with "root"', () => {
+            req.originalUrl = '/';
 
             middleware.use(req, res, next);
 
-            const metrics = await client.register.metrics();
+            finishCallback();
 
-            expect(metrics).toContain(
-                'test_response_time_bucket{le="0.1",route="test",time="time"} 1',
+            expect(next).toHaveBeenCalled();
+
+            expect(mockMetricsService.registerCounter).toHaveBeenCalledWith(
+                'root_requests_total',
+                'The total number of requests',
+                ['route', 'root', 'all'],
             );
-            expect(metrics).toContain(
-                'test_response_time_bucket{le="0.3",route="test",time="time"} 1',
+            expect(mockMetricsService.registerCounter).toHaveBeenCalledWith(
+                'root_successful_requests_total',
+                'The total number of successful requests',
+                ['route', 'root', 'success'],
             );
-            expect(metrics).toContain(
-                'test_response_time_bucket{le="0.5",route="test",time="time"} 1',
+            expect(mockMetricsService.registerCounter).toHaveBeenCalledWith(
+                'root_failed_requests_total',
+                'The total number of failed requests',
+                ['route', 'root', 'error'],
             );
-            expect(metrics).toContain(
-                'test_response_time_bucket{le="1",route="test",time="time"} 1',
+            expect(mockMetricsService.registerHistogram).toHaveBeenCalledWith(
+                'root_response_time',
+                'The response time in seconds',
+                ['route', 'root', 'time'],
+                [0.1, 0.2, 0.3, 0.5, 1, 1.5, 2, 3, 4, 5, 10],
             );
-            expect(metrics).toContain(
-                'test_response_time_bucket{le="1.5",route="test",time="time"} 1',
-            );
-            expect(metrics).toContain(
-                'test_response_time_bucket{le="2",route="test",time="time"} 1',
-            );
-            expect(metrics).toContain(
-                'test_response_time_bucket{le="3",route="test",time="time"} 1',
-            );
-            expect(metrics).toContain(
-                'test_response_time_bucket{le="4",route="test",time="time"} 1',
-            );
-            expect(metrics).toContain(
-                'test_response_time_bucket{le="5",route="test",time="time"} 1',
-            );
-            expect(metrics).toContain(
-                'test_response_time_bucket{le="10",route="test",time="time"} 1',
-            );
-            expect(metrics).toContain(
-                'test_response_time_bucket{le="+Inf",route="test",time="time"} 1',
-            );
-            expect(metrics).toContain(
-                'test_response_time_sum{route="test",time="time"}',
-            );
-            expect(metrics).toContain(
-                'test_response_time_count{route="test",time="time"} 1',
+
+            expect(mockMetricsService.registerCounter).toHaveBeenCalledTimes(3);
+            expect(mockMetricsService.registerHistogram).toHaveBeenCalledTimes(
+                1,
             );
         });
     });

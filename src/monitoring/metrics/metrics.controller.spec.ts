@@ -2,14 +2,21 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { MetricsController } from './metrics.controller';
 import { MetricsService } from './metrics.service';
 import { InternalServerErrorException } from '@nestjs/common';
+import { Registry } from 'prom-client';
 
 describe('MetricsController', () => {
     let controller: MetricsController;
+    let mockRegistry: Registry;
 
     beforeEach(async () => {
+        mockRegistry = new Registry();
+
         const module: TestingModule = await Test.createTestingModule({
             controllers: [MetricsController],
-            providers: [MetricsService],
+            providers: [
+                MetricsService,
+                { provide: Registry, useValue: mockRegistry },
+            ],
         }).compile();
 
         controller = module.get<MetricsController>(MetricsController);
