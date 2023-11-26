@@ -15,7 +15,6 @@ export class MetricsController {
         try {
             return await this.metrics.getMetrics();
         } catch (error) {
-            console.error(error);
             throw new InternalServerErrorException(
                 'An error occurred while retrieving metrics.',
             );

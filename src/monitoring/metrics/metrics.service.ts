@@ -27,7 +27,7 @@ export class MetricsService implements IMetricsService {
 
             return this.metricsCollection.join('\n');
         } catch (error) {
-            console.error('Error retrieving metrics:', error);
+            console.log('Error retrieving metrics:', error);
             return '';
         }
     }
