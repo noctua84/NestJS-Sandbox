@@ -37,7 +37,7 @@ jobs:
         run: npm install
 
       - name: Check for package updates
-        run: npx ncu --doctor -u
+        run: npx ncu
 
       - name: Check if package.json has changed
         id: check_package_json
