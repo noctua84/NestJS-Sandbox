@@ -1,0 +1,1 @@
+export const KNOWN_ERROR_CODES = [400, 401, 403, 404, 412, 422, 500];

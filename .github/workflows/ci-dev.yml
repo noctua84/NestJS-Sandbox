@@ -116,5 +116,5 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: Integration Tests
+      - name: End to End Tests
         run: npm run test:e2e

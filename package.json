@@ -29,7 +29,17 @@
     "vault:open:ci": "dotenv-vault open ci",
     "vault:login": "dotenv-vault login",
     "vault:keys:ci": "dotenv-vault keys ci",
-    "watch:prisma": "nodemon"
+    "watch:prisma": "nodemon",
+    "prisma:generate": "npx prisma generate",
+    "prisma:migrate:dev": "npx prisma migrate dev",
+    "prisma:migrate:dev:init": "npx prisma migrate dev --name init",
+    "prisma:migrate:dev:name": "npx prisma migrate dev --name",
+    "prisma:migrate:dev:reset": "npx prisma migrate reset",
+    "prisma:migrate:dev:create": "npx prisma migrate dev --create-only --name",
+    "prisma:migrate:dev:down": "npx prisma migrate diff --from-schema-datamodel prisma/schema.prisma --to-schema-datasource prisma/schema.prisma --script > down.sql",
+    "prisma:migrate:dev:rollback": "npx prisma migrate resolve --rolled-back",
+    "prisma:migrate:status": "npx prisma migrate status",
+    "prisma:studio": "npx prisma studio"
   },
   "dependencies": {
     "@nestjs/axios": "^3.0.1",
@@ -39,11 +49,11 @@
     "@nestjs/devtools-integration": "^0.1.5",
     "@nestjs/platform-express": "^10.2.10",
     "@nestjs/terminus": "^10.1.1",
-    "@prisma/client": "^5.3.1",
+    "@prisma/client": "^5.6.0",
     "axios": "^1.6.2",
     "dotenv-vault": "^1.25.0",
     "joi": "^17.11.0",
-    "prisma": "^5.3.1",
+    "prisma": "^5.6.0",
     "prom-client": "^15.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
@@ -54,7 +64,7 @@
     "@nestjs/testing": "^10.2.10",
     "@types/express": "^4.17.21",
     "@types/jest": "29.5.10",
-    "@types/node": "20.9.5",
+    "@types/node": "20.10.0",
     "@types/supertest": "^2.0.16",
     "@typescript-eslint/eslint-plugin": "^6.12.0",
     "@typescript-eslint/parser": "^6.12.0",
@@ -103,5 +113,9 @@
     ],
     "ext": "prisma",
     "exec": "prisma generate"
+  },
+  "prisma": {
+    "seed": "./prisma/seed.ts",
+    "schema": "prisma/schema.prisma"
   }
 }

@@ -22,3 +22,6 @@ graph.json
 
 # coverage output
 coverage
+
+# other
+out

@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import { MetricsService } from '../../metrics.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { metricsServiceMock } from '../../../../../test/mocks/metrics.mock';
+import { KNOWN_ERROR_CODES } from '../../constants/metrics.constants';
 
 describe('RouteMetricsMiddleware', () => {
     let req: Request;
@@ -120,6 +121,28 @@ describe('RouteMetricsMiddleware', () => {
             expect(mockMetricsService.registerCounter).toHaveBeenCalledTimes(3);
             expect(mockMetricsService.registerHistogram).toHaveBeenCalledTimes(
                 1,
+            );
+        });
+
+        it.each(KNOWN_ERROR_CODES)('shouled handle error code %s', (code) => {
+            res.statusCode = code;
+
+            middleware.use(req, res, next);
+            finishCallback();
+
+            expect(next).toHaveBeenCalled();
+
+            expect(
+                mockMetricsService.incrementErrorCodeCounter,
+            ).toHaveBeenCalledWith(code.toString(), 'test');
+            expect(
+                mockMetricsService.incrementErrorCodeCounter,
+            ).toHaveBeenCalledTimes(1);
+
+            expect(
+                mockMetricsService.incrementErrorCodeCounter,
+            ).toHaveReturnedWith(
+                `Error code ${code} for endpoint test was tracked`,
             );
         });
     });

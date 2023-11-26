@@ -1,6 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 import { MetricsService } from '../../metrics.service';
+import { KNOWN_ERROR_CODES } from '../../constants/metrics.constants';
 
 @Injectable()
 export class RouteMetricsMiddleware implements NestMiddleware {
@@ -50,6 +51,7 @@ export class RouteMetricsMiddleware implements NestMiddleware {
         res.on('finish', () => {
             const [seconds, nanoseconds] = process.hrtime(start);
             const duration = seconds + nanoseconds / 1e9;
+            const trackedErrorCodes = KNOWN_ERROR_CODES;
 
             if (res.statusCode >= 200 && res.statusCode < 400) {
                 successfulRequestsCounter.inc({
@@ -61,6 +63,13 @@ export class RouteMetricsMiddleware implements NestMiddleware {
                     route: endpoint,
                     error: 'error',
                 });
+
+                if (trackedErrorCodes.includes(res.statusCode)) {
+                    this.metricsService.incrementErrorCodeCounter(
+                        res.statusCode.toString(),
+                        endpoint,
+                    );
+                }
             }
 
             responseTimeHistogram.observe(
