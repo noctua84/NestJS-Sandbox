@@ -3,7 +3,7 @@ import { MetricsController } from './metrics.controller';
 import { MetricsService } from './metrics.service';
 import client, { Registry } from 'prom-client';
 import { RouteMetricsMiddleware } from './middleware/route/route.metrics.middleware';
-import { PrismaModule } from 'src/prisma/prisma.module';
+import { PrismaModule } from '../../prisma/prisma.module';
 
 @Module({
     imports: [PrismaModule],

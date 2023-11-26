@@ -8,9 +8,12 @@ import {
     MockContext,
     createMockContext,
 } from '../../../test/mocks/prisma.mock';
+import { PrismaService } from '../../prisma/prisma.service';
 
 describe('MetricsController', () => {
     let controller: MetricsController;
+    let metricsService: MetricsService;
+    let prismaService: PrismaService;
     let mockRegistry: Registry;
     let mockPrismaClient: MockContext['prisma'];
 
@@ -23,6 +26,7 @@ describe('MetricsController', () => {
             controllers: [MetricsController],
             providers: [
                 MetricsService,
+                PrismaService,
                 { provide: Registry, useValue: mockRegistry },
                 {
                     provide: PrismaClient,
@@ -32,11 +36,15 @@ describe('MetricsController', () => {
         }).compile();
 
         controller = module.get<MetricsController>(MetricsController);
+        metricsService = module.get<MetricsService>(MetricsService);
+        prismaService = module.get<PrismaService>(PrismaService);
     });
 
     describe('resources', () => {
         it('should be defined', () => {
             expect(controller).toBeDefined();
+            expect(metricsService).toBeDefined();
+            expect(prismaService).toBeDefined();
         });
     });
 

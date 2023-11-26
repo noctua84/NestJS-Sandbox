@@ -2,13 +2,13 @@ import { HttpModule } from '@nestjs/axios';
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { TerminusModule } from '@nestjs/terminus';
 import { HealthController } from './health.controller';
-import { FeatureConfigService } from 'src/config/featureconfig/featureconfig.service';
-import { RouteMetricsMiddleware } from 'src/monitoring/metrics/middleware/route/route.metrics.middleware';
-import { FeatureConfigModule } from 'src/config/featureconfig/featureconfig.module';
+import { FeatureConfigService } from '../../config/featureconfig/featureconfig.service';
+import { RouteMetricsMiddleware } from '../../monitoring/metrics/middleware/route/route.metrics.middleware';
+import { FeatureConfigModule } from '../../config/featureconfig/featureconfig.module';
 import { MetricsModule } from '../metrics/metrics.module';
 import { MetricsService } from '../metrics/metrics.service';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { PrismaModule } from 'src/prisma/prisma.module';
+import { PrismaService } from '../../prisma/prisma.service';
+import { PrismaModule } from '../../prisma/prisma.module';
 
 @Module({
     imports: [

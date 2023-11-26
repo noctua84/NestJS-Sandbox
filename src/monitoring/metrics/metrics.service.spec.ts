@@ -6,10 +6,12 @@ import {
     createMockContext,
 } from '../../../test/mocks/prisma.mock';
 import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '../../prisma/prisma.service';
 
 describe('HealthService', () => {
     let service: MetricsService;
     let mockRegistry: Registry;
+    let prismaService: PrismaService;
     let mockPrismaClient: MockContext['prisma'];
 
     beforeEach(async () => {
@@ -20,6 +22,7 @@ describe('HealthService', () => {
         const module: TestingModule = await Test.createTestingModule({
             providers: [
                 MetricsService,
+                PrismaService,
                 {
                     provide: Registry,
                     useValue: mockRegistry,
@@ -32,11 +35,13 @@ describe('HealthService', () => {
         }).compile();
 
         service = module.get<MetricsService>(MetricsService);
+        prismaService = module.get<PrismaService>(PrismaService);
     });
 
     describe('service', () => {
         it('should be defined', () => {
             expect(service).toBeDefined();
+            expect(prismaService).toBeDefined();
         });
 
         it('should return the prom client', () => {
