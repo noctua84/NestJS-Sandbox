@@ -19,3 +19,6 @@ dist/**/*
 
 # nestjs dev tools
 graph.json
+
+# coverage output
+coverage
