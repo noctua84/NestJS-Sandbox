@@ -15,7 +15,6 @@ import { RouteMetricsMiddleware } from './monitoring/metrics/middleware/route/ro
 import { FeatureConfigModule } from './config/featureconfig/featureconfig.module';
 import { FeatureConfigService } from './config/featureconfig/featureconfig.service';
 import { PrismaModule } from './prisma/prisma.module';
-import { TestModule } from './test/test.module';
 
 @Module({
     imports: [
@@ -37,7 +36,6 @@ import { TestModule } from './test/test.module';
         MetricsModule,
         FeatureConfigModule,
         PrismaModule,
-        TestModule,
     ],
     controllers: [AppController],
     providers: [AppService, FeatureConfigService],
