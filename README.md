@@ -1,18 +1,19 @@
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![CodeFactor](https://www.codefactor.io/repository/github/noctua84/nestjs-sandbox/badge)](https://www.codefactor.io/repository/github/noctua84/nestjs-sandbox)
   
 # NestJS Sandbox API-App
 This application is mainly a playground to test technology concerning APIs and TypeScript.  
 It has no purpose to supply a fully working application but a work-in-progress approach.  
-Although it has it's limitations due to its WIP-nature, it might also be a usefull source of inspriation or a staringpoint for your next app.
+Although it has it's limitations due to its WIP-nature, it might also be a usefull source of inspriation or a staringpoint for your next app.  
+To serve as a starting point, the repository is marked as a template.
   
-The applications' branching strategy follows git-flow.  
-The main development branch is develop and everything finished lives in main. Frozen states will live under versions. It will also integrate commitizen for commits and release please to automate changelog and release. The application also has a continous integration setup following along.  
-In this, the application does not fully follow the git-flow approach but creats a bit of its own.  
+The applications' branching strategy roughly follows git-flow.  
+The main development branch is develop and everything finished lives in main. Frozen states will live under versions. It will also integrate commitizen for commits and release please to automate changelog and releases. The application also has a continous integration setup following along.  
 The app has two continous integragtion pipelines: one for the main branch and one for the development branch. The one for the main branch runs coverage scans and build, as well as changlog and release, whereas the one for the development branch runs the tests, linting and formatting jobs.  
 A real continious integration approach would do everything on the main branch and does not apply any specific branching strategy. This would though colide a bit with release please since it would create a new releas each time a 'fix' or 'feat' commit is done. That is why the ongoing development is done in a dedicated branch whereas the usable state is in the main branch and the releases. 
 
 ## Technologies used:
-The following list contains technologies and approaches, that are used/demoed in the application.
+The following list contains technologies and approaches, that are used in the application:
 
 ## Tools used:
 - Pipline-Tools:
@@ -28,7 +29,7 @@ The following list contains technologies and approaches, that are used/demoed in
     - [dotenv-Vault](https://www.dotenv.org/docs) is a tool to securly distribute your environment configurations across platforms and teams. It is a new way to safely store environment variables. It works with an encrypted .env.vault file that is save to add to version controll and requires an account on dotenv.org. It is recommended though to set up your own account if you want to use your own .env config. See [here](#dotenv-vault) for more info about the integration into this app. (free tool)
 
 ## NestJS integrated tools:
-- [Read-Eval-Print-Loop(REPL)](docs.nestjs.com/recipes/repl) is a simple interactive environment for dependency graph and to try out methods from providers and/or controllers from the terminal.
+- [Read-Eval-Print-Loop(REPL)](docs.nestjs.com/recipes/repl) is a simple interactive environment for dependency graphs and trying out methods from providers and/or controllers from the terminal.
 
 ## Feature List:
 This section contains a list of features, that are implemented and/or planned. As the application has no definite targed so does this list. It will be updated accordingly
@@ -57,3 +58,4 @@ This section lists topics, that have their own file, where they are discussed in
   
 ### [dotenv-vault](./documentation/dotenv-vault.md)
 ### [Prisma ORM](./documentation/prisma-orm.md)
+
