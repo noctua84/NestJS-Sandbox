@@ -32,9 +32,20 @@ The following list contains technologies and approaches, that are used/demoed in
 
 ## Feature List:
 This section contains a list of features, that are implemented and/or planned. As the application has no definite targed so does this list. It will be updated accordingly
-- [x] Metrics with Prometheus (default metrics)
+- [x] Metrics with Prometheus
+  - [x] Collection of default metrics
+  - [ ] Collection of prisma metrics
+  - [x] Middleware for usage data
+  - [ ] Service methods for different metric types
+    - [x] Service method for counter
+    - [x] Service method for histogram
+    - [ ] Service method for gauge
+    - [ ] Service method for summary
 - [x] Healthcheck with Terminus (certain endpoints and database)
-- [ ] Databaseinteraction with Prisma (Postgresql, MongoDB)
+  - [x] Healthcheck for root endpoint
+  - [ ] Healthcheck for database
+- [x] Databaseinteraction with Prisma
+  - [x] Enable prometheus metrics for prisma (usage)
 - [ ] Migrations
 - [ ] API documentation with OpenAPI
 - [x] Unit tests with Jest
