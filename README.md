@@ -37,18 +37,18 @@ This section contains a list of features, that are implemented and/or planned. A
   - [x] Collection of default metrics
   - [x] Collection of prisma metrics
   - [x] Middleware for usage data
-  - [ ] Service methods for different metric types
+  - [x] Service methods for different metric types
     - [x] Service method for counter
     - [x] Service method for histogram
-    - [ ] Service method for gauge
-    - [ ] Service method for summary
+    - [x] Service method for gauge
+    - [x] Service method for summary
 - [x] Healthcheck with Terminus (certain endpoints and database)
   - [x] Healthcheck for root endpoint
   - [ ] Healthcheck for database
 - [x] Databaseinteraction with Prisma
   - [x] Enable prometheus metrics for prisma (usage)
   - [ ] Migrations
-  - [ ] Seeds
+  - [x] Seeds
   - [x] prisma commands (package.json)
 - [ ] API documentation with OpenAPI
 - [x] Unit tests with Jest
