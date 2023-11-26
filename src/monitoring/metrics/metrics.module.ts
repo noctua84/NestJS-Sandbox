@@ -15,10 +15,6 @@ import { PrismaModule } from '../../prisma/prisma.module';
     exports: [MetricsService, Registry],
 })
 export class MetricsModule {
-    constructor() {
-        client.collectDefaultMetrics();
-    }
-
     configure(consumer: MiddlewareConsumer) {
         consumer
             .apply(RouteMetricsMiddleware)
