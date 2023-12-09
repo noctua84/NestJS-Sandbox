@@ -1,5 +1,6 @@
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![CodeFactor](https://www.codefactor.io/repository/github/noctua84/nestjs-sandbox/badge)](https://www.codefactor.io/repository/github/noctua84/nestjs-sandbox)
+[![codecov](https://codecov.io/gh/noctua84/NestJS-Sandbox/graph/badge.svg?token=JZMjRX3oRi)](https://codecov.io/gh/noctua84/NestJS-Sandbox)
   
 # NestJS Sandbox API-App
 This application is mainly a playground to test technology concerning APIs and TypeScript.  
@@ -17,7 +18,8 @@ The following list contains technologies and approaches, that are used in the ap
 
 ## Tools used:
 - Pipline-Tools:
-    - [Qodana](https://www.qodana.cloud) is a code quality tool. It requires an active JetBrains account with subscription to be used. The pipeline configuration can be found [here](./.github/workflows/qodana-scan.yml). (paid tool) 
+    - [Qodana](https://www.qodana.cloud) is a code quality tool. It requires an active JetBrains account with subscription to be used. The pipeline configuration can be found [here](./.github/workflows/qodana-scan.yml). (freemium tool) 
+    - [CircleCI](https://www.circleci.com) is a pipeline runner like github actions but with a different way to configure jobs. This is mainly for experimenting with different pipline types and configurations. (freemium tool)
     - [Dependabot](https://github.com/dependabot) is a dependancy management tool exclusivly for GitHub. The pipeline configuration can be found [here](./.github/dependabot.yml). (free tool)  
     Importand: the labels and milestones mentioned in the configuration need to be present in the respective github project.
     - [Release Please](https://github.com/googleapis/release-please) is used for release and changelog automation in the [CI-Pipeline](./.github/workflows/ci.yml). It depends on conventional-commits-style of commits. (free tool)

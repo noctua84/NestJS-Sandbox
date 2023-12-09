@@ -1,0 +1,13 @@
+coverage:
+  status:
+    project:
+      default:
+        target: 90
+        threshold: 2%
+  ignore:
+    - "**/test/**"
+    - "**/*.spec.ts"
+    - "**/*.config.ts"
+    - "**/*.constants.de"
+    - "**/main.ts"
+    - "**/repl.ts"
