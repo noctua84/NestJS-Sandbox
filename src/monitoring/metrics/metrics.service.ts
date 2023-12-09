@@ -29,6 +29,7 @@ export class MetricsService implements IMetricsService {
         this.register = register;
         this.prisma = prismaService.getPrismaClient();
         this.errorCodeCounters = this.initializeErrorCodeCounters();
+        this.metricsCollection = [];
     }
 
     /**
