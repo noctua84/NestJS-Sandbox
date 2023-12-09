@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/noctua84/NestJS-Sandbox/compare/v0.4.0...v0.4.1) (2023-12-09)
+
+
+### Bug Fixes
+
+* **metrics service:** metrics collection was not propperly initialized ([04d04c8](https://github.com/noctua84/NestJS-Sandbox/commit/04d04c853ac878f040eca73dbc552f0b3bdc2ddd))
+
 ## [0.4.0](https://github.com/noctua84/NestJS-Sandbox/compare/v0.3.0...v0.4.0) (2023-11-26)
 
 
