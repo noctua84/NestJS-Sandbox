@@ -29,6 +29,7 @@ export class MetricsService implements IMetricsService {
         this.register = register;
         this.prisma = prismaService.getPrismaClient();
         this.errorCodeCounters = this.initializeErrorCodeCounters();
+        this.metricsCollection = [];
     }
 
     /**
@@ -36,17 +37,16 @@ export class MetricsService implements IMetricsService {
      * @returns Promise<string>
      */
     async getMetrics(): Promise<string> {
-        try {
-            this.metricsCollection = [
-                await this.register.metrics(),
-                await this.prisma.$metrics.prometheus(),
-            ];
+        this.metricsCollection.push(await this.register.metrics());
 
-            return this.metricsCollection.join('\n');
+        try {
+            const prismaMetrics = await this.prisma.$metrics.prometheus();
+            this.metricsCollection.push(prismaMetrics);
         } catch (error) {
             console.log('Error retrieving metrics:', error);
-            return '';
         }
+
+        return this.metricsCollection.join('\n');
     }
 
     /**
