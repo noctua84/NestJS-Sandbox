@@ -1,6 +1,14 @@
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![CodeFactor](https://www.codefactor.io/repository/github/noctua84/nestjs-sandbox/badge)](https://www.codefactor.io/repository/github/noctua84/nestjs-sandbox)
-[![codecov](https://codecov.io/gh/noctua84/NestJS-Sandbox/graph/badge.svg?token=JZMjRX3oRi)](https://codecov.io/gh/noctua84/NestJS-Sandbox)
+[![codecov](https://codecov.io/gh/noctua84/NestJS-Sandbox/graph/badge.svg?token=JZMjRX3oRi)](https://codecov.io/gh/noctua84/NestJS-Sandbox)  
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=bugs)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
+
   
 # NestJS Sandbox API-App
 This application is mainly a playground to test technology concerning APIs and TypeScript.  
@@ -13,16 +21,18 @@ The main development branch is develop and everything finished lives in main. Fr
 The app has two continous integragtion pipelines: one for the main branch and one for the development branch. The one for the main branch runs coverage scans and build, as well as changlog and release, whereas the one for the development branch runs the tests, linting and formatting jobs.  
 A real continious integration approach would do everything on the main branch and does not apply any specific branching strategy. This would though colide a bit with release please since it would create a new releas each time a 'fix' or 'feat' commit is done. That is why the ongoing development is done in a dedicated branch whereas the usable state is in the main branch and the releases. 
 
-## Technologies used:
-The following list contains technologies and approaches, that are used in the application:
-
 ## Tools used:
+- Piplines:
+  - Github Actions is used as the default pipeline runner. The repository has two different pipelines, one attached to the dev-branch and one to the main-branch.
+    - [CI-Dev(](./.github/workflows/ci-dev.yml): This pipeline runs tests, liniting and formatting it is triggered by any commit to the develop branch.
+    - [CI](./.github/workflows/ci.yml): This pipeline runs an additional dependency check, coverage, build and release steps.  
+  - [CircleCI](https://www.circleci.com) is a pipeline runner like github actions but with a different way to configure jobs. This is mainly for experimenting with different pipline types and configurations. (freemium tool) To remove or edit the integration, modify or delet the [CI config](./.circleci/config.yml)
 - Pipline-Tools:
-    - [Qodana](https://www.qodana.cloud) is a code quality tool. It requires an active JetBrains account with subscription to be used. The pipeline configuration can be found [here](./.github/workflows/qodana-scan.yml). (freemium tool) 
-    - [CircleCI](https://www.circleci.com) is a pipeline runner like github actions but with a different way to configure jobs. This is mainly for experimenting with different pipline types and configurations. (freemium tool)
     - [Dependabot](https://github.com/dependabot) is a dependancy management tool exclusivly for GitHub. The pipeline configuration can be found [here](./.github/dependabot.yml). (free tool)  
     Importand: the labels and milestones mentioned in the configuration need to be present in the respective github project.
     - [Release Please](https://github.com/googleapis/release-please) is used for release and changelog automation in the [CI-Pipeline](./.github/workflows/ci.yml). It depends on conventional-commits-style of commits. (free tool)
+    - [CodeCov](https://codecov.io) is a tool to manage code coverage, and make visible, which parts of the code base needs test improvements.
+    - [SonarCloud](https://sonarcloud.io) is a tool for overall code quality, maintainability and coverage. To remove the integration, delete the file [sonar-projects.properties](./sonar-project.properties) and the step in the [ci-pipeline](./.github/workflows/ci.yml) and [ci-dev-pipeline](./.github/workflows/ci-dev.yml).
 - Commits:
     - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) is used for commits and utilizes [commitizen](https://github.com/commitizen/cz-cli). (free tool)
 - Development:
@@ -56,6 +66,10 @@ This section contains a list of features, that are implemented and/or planned. A
 - [x] Unit tests with Jest
 - [x] Configuration with NestJS Config
 - [x] Configuration schema and validation with Joi
+
+## Deployment
+- [x] Dockerfile
+- [ ] Helm Chart
 
 ## Documentation:
 This section lists topics, that have their own file, where they are discussed in detail but in scope of the application.  
