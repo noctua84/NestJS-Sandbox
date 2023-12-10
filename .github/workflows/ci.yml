@@ -149,25 +149,14 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: node
 
-      - name: current version
-        id: current_version
-        if: steps.create_release.outputs.release_created == 'true'
-        run: | 
-          VERSION=$(echo ${{ steps.create_release.outputs.major }}.${{ steps.create_release.outputs.minor }}.${{ steps.create_release.outputs.patch }})
-          echo "::set-output name=version::$VERSION"
-
       - name: Merge Release PR
-        if: steps.create_release.outputs.release_created == 'true'
         uses: pascalgn/automerge-action@v0.15.6
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MERGE_LABELS: "autorelease: pending"
-          MERGE_METHOD: "squash"
-          MERGE_COMMIT_MESSAGE: "chore: release ${{ steps.current_version.outputs.version }}"
           MERGE_DELETE_BRANCH: "true"
           MERGE_RETRIES: 3
           MERGE_RETRY_SLEEP: 100
-          UPDATE_LABELS: "autorelease: tagged"
 
   build-and-push-docker:
     needs:
@@ -197,7 +186,7 @@ jobs:
         id: package_info
         run: |
           PACKAGE_VERSION=$(jq -r '.version' package.json)
-          PACKAGE_NAME=$(jq -r '.name' package.json)
+          PACKAGE_NAME=$(jq -r '.name' package.json | tr '[:upper:]' '[:lower:]')
           echo "::set-output name=PACKAGE_VERSION::$PACKAGE_VERSION"
           echo "::set-output name=PACKAGE_NAME::$PACKAGE_NAME"
 
@@ -207,4 +196,4 @@ jobs:
           context: .
           file: ./docker/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}/${{ steps.package_info.outputs.PACKAGE_NAME }}:${{ steps.package_info.outputs.PACKAGE_VERSION }}
+          tags: ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')/${{ steps.package_info.outputs.PACKAGE_NAME }}:${{ steps.package_info.outputs.PACKAGE_VERSION }}
