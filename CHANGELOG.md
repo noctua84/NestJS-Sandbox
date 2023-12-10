@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/noctua84/NestJS-Sandbox/compare/v0.4.1...v0.5.0) (2023-12-10)
+
+
+### Features
+
+* **docker:** added Dockerfile for deployment ([44b5c1e](https://github.com/noctua84/NestJS-Sandbox/commit/44b5c1e5a3f457ee10b2110ee5393539b042dce3))
+
 ## [0.4.1](https://github.com/noctua84/NestJS-Sandbox/compare/v0.4.0...v0.4.1) (2023-12-09)
 
 
