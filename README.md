@@ -60,7 +60,7 @@ This section contains a list of features, that are implemented and/or planned. A
 - [x] Configuration schema and validation with Joi
 
 ## Deployment
-- [ ] Dockerfile
+- [x] Dockerfile
 - [ ] Helm Chart
 
 ## Documentation:
