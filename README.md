@@ -1,6 +1,14 @@
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![CodeFactor](https://www.codefactor.io/repository/github/noctua84/nestjs-sandbox/badge)](https://www.codefactor.io/repository/github/noctua84/nestjs-sandbox)
-[![codecov](https://codecov.io/gh/noctua84/NestJS-Sandbox/graph/badge.svg?token=JZMjRX3oRi)](https://codecov.io/gh/noctua84/NestJS-Sandbox)
+[![codecov](https://codecov.io/gh/noctua84/NestJS-Sandbox/graph/badge.svg?token=JZMjRX3oRi)](https://codecov.io/gh/noctua84/NestJS-Sandbox)  
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=bugs)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
+
   
 # NestJS Sandbox API-App
 This application is mainly a playground to test technology concerning APIs and TypeScript.  
