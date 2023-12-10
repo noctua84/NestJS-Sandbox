@@ -57,6 +57,10 @@ This section contains a list of features, that are implemented and/or planned. A
 - [x] Configuration with NestJS Config
 - [x] Configuration schema and validation with Joi
 
+## Deployment
+- [ ] Dockerfile
+- [ ] Helm Chart
+
 ## Documentation:
 This section lists topics, that have their own file, where they are discussed in detail but in scope of the application.  
   
