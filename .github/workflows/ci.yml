@@ -1,4 +1,4 @@
-# Main workflow for this application to provide continuous integration steps like 
+# Main workflow for this application to provide continuous integration steps like
 # - check for dependency updates (ncu)
 # - coverage
 # - build
@@ -10,7 +10,7 @@ on:
   push:
     branches:
       - main
-      
+
   # allow manual runs
   workflow_dispatch:
 
@@ -39,8 +39,13 @@ jobs:
       - name: Check for package updates
         run: npx ncu -d -u
 
+      - name: Reinstall dependencies
+        id: reinstall_dependencies
+        run: npm ci || echo "::set-output name=reinstall_failed::true"
+
       - name: Check if package.json has changed
         id: check_package_json
+        if: steps.reinstall_dependencies.outputs.reinstall_failed != 'true'
         run: git diff --quiet HEAD -- package.json || echo "::set-output name=changed::true"
 
       - name: Persist changes in package.json
@@ -64,7 +69,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-        
+
       - name: Install Dependencies
         run: npm ci
 
@@ -76,7 +81,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
-  
+
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
