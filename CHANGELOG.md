@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.0](https://github.com/noctua84/NestJS-Sandbox/compare/v0.5.0...v0.6.0) (2023-12-13)
+
+
+### Features
+
+* add .env.example as an alternative to dotenv-vault ([7915404](https://github.com/noctua84/NestJS-Sandbox/commit/791540449a9469388a1be84840fb64f2c775f7d2))
+
+
+### Bug Fixes
+
+* reverted a dependency update and added an additional step to the pipeline job ([48e6fd2](https://github.com/noctua84/NestJS-Sandbox/commit/48e6fd25206dfe7896ac756b50c5ff8d2a1023b9))
+
 ## [0.5.0](https://github.com/noctua84/NestJS-Sandbox/compare/v0.4.1...v0.5.0) (2023-12-10)
 
 
