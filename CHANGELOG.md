@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/noctua84/NestJS-Sandbox/compare/v0.6.0...v0.6.1) (2023-12-14)
+
+
+### Bug Fixes
+
+* pipeline bugfix for releas step ([744ea26](https://github.com/noctua84/NestJS-Sandbox/commit/744ea26b48ab970a2289165e286dd8c0539cbb95))
+
 ## [0.6.0](https://github.com/noctua84/NestJS-Sandbox/compare/v0.5.0...v0.6.0) (2023-12-13)
 
 
