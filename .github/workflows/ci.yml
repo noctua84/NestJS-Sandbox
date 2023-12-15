@@ -178,7 +178,7 @@ jobs:
                 issue_number: releasePr.number,
                 owner,
                 repo,
-                labels: ['autormerge']
+                labels: ['automerge']
               })
 
               core.notice('Added label to release PR');
