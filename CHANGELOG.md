@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.3](https://github.com/noctua84/NestJS-Sandbox/compare/v0.6.2...v0.6.3) (2023-12-15)
+
+
+### Bug Fixes
+
+* **pipeline:** wrong label name ([3c13cbc](https://github.com/noctua84/NestJS-Sandbox/commit/3c13cbcd73bb88f7eb98d8954311acffca31a034))
+
 ## [0.6.2](https://github.com/noctua84/NestJS-Sandbox/compare/v0.6.1...v0.6.2) (2023-12-15)
 
 
