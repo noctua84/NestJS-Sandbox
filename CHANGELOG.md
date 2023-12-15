@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.2](https://github.com/noctua84/NestJS-Sandbox/compare/v0.6.1...v0.6.2) (2023-12-15)
+
+
+### Bug Fixes
+
+* **pipeline:** missing merge trigger label ([aa53c7e](https://github.com/noctua84/NestJS-Sandbox/commit/aa53c7eb880f0477df186a838417beab4b0fc5ee))
+* **pipeline:** updated the version of the script action and refined it ([a561e56](https://github.com/noctua84/NestJS-Sandbox/commit/a561e5641677d9fa497558dea4c274389107c879))
+
 ## [0.6.1](https://github.com/noctua84/NestJS-Sandbox/compare/v0.6.0...v0.6.1) (2023-12-14)
 
 
