@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.7.0](https://github.com/noctua84/NestJS-Sandbox/compare/v0.6.3...v0.7.0) (2023-12-15)
+
+
+### Features
+
+* **pipeline scripts:** added pipeline scripts as separate js files ([3cbb90a](https://github.com/noctua84/NestJS-Sandbox/commit/3cbb90a7792b8d6f4107c89f5492742679da5c85))
+
+
+### Bug Fixes
+
+* **pipeline:** fixed another issue with the label step ([842b317](https://github.com/noctua84/NestJS-Sandbox/commit/842b317210c569890a6428fa91f5bdb3f5ffb98b))
+
 ## [0.6.3](https://github.com/noctua84/NestJS-Sandbox/compare/v0.6.2...v0.6.3) (2023-12-15)
 
 
