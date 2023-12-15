@@ -154,11 +154,36 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: node
 
+      - name: add label to release pr
+        uses: actions/github-script@5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const pullRequests = await github.rest.pulls.list({
+              owner,
+              repo,
+              state: 'open',
+            });
+            
+            const releasePr = pullRequests.data.find((pr) => pr.title.includes('chore(main):'));
+            
+            if (releasePr) {
+              await github.rest.issues.addLabels({
+                issue_number: releasePr.number,
+                owner,
+                repo,
+                labels: ['autorelease']
+              })
+            } else {
+              core.setFailed('No release PR found');
+            }
+
       - name: Merge Release PR
         uses: pascalgn/automerge-action@v0.15.6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MERGE_LABELS: "autorelease: pending"
+          MERGE_LABELS: "automerge"
           MERGE_DELETE_BRANCH: "true"
           MERGE_RETRIES: 3
           MERGE_RETRY_SLEEP: 100
