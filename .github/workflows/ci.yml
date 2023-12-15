@@ -147,14 +147,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: create release and changelog
+      - name: Create Release and Changelog
         id: create_release
         uses: google-github-actions/release-please-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: node
 
-      - name: add label to release pr
+      - name: Add Label to Release-PR
         id: add_label
         uses: actions/github-script@v7
         with:
@@ -162,37 +162,22 @@ jobs:
           result-encoding: string
           retries: 3
           script: |
-            const { owner, repo } = context.repo;
-            let labelAdded = false;
-            const pullRequests = await github.rest.pulls.list({
-              owner,
-              repo,
-              state: 'open',
-            });
+            const script = require('./.github/scripts/addLabelToRelease.js');
+            await script({ github, context, core });
 
-            const releasePr = pullRequests.data.find((pr) => pr.title.includes('chore(main):'));
-            core.notice(`Found release PR: ${releasePr.number}`);
-
-            if (releasePr) {
-              await github.rest.issues.addLabels({
-                issue_number: releasePr.number,
-                owner,
-                repo,
-                labels: ['automerge']
-              })
-
-              core.notice('Added label to release PR');
-              core.setOutput('labelAdded', 'true');
-              labelAdded = true;
-            } else {
-              core.error('No release PR found');
-              core.setFailed('No release PR found');
-            }
-
-            return labelAdded;
+      - name: Check PR Status
+        if: steps.add_label.outputs.result == 'true'
+        uses: actions/github-script@v7
+        with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            result-encoding: string
+            retries: 3
+            script: |
+              const script = require('./.github/scripts/checkPRStatus.js');
+              await script({ github, context, core });
 
       - name: Merge Release PR
-        if: steps.add_label.outputs.result == 'true'
+        if: steps.check_pr_status.outputs.ready == 'true'
         uses: pascalgn/automerge-action@v0.15.6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
