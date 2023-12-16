@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.1](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.0...v0.7.1) (2023-12-16)
+
+
+### Bug Fixes
+
+* **pipeline scripts:** fixed a typo in the naming of th label script ([0c9b038](https://github.com/noctua84/NestJS-Sandbox/commit/0c9b0383d68e4d062fbbbed4643e5728e88bbd83))
+
 ## [0.7.0](https://github.com/noctua84/NestJS-Sandbox/compare/v0.6.3...v0.7.0) (2023-12-15)
 
 
