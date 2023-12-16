@@ -162,7 +162,7 @@ jobs:
           result-encoding: string
           retries: 3
           script: |
-            const script = require('./.github/scripts/addLabelToRelease.js');
+            const script = require('.github/scripts/addLabelToRelease.js');
             await script({ github, context, core });
 
       - name: Check PR Status
@@ -173,7 +173,7 @@ jobs:
             result-encoding: string
             retries: 3
             script: |
-              const script = require('./.github/scripts/checkPRStatus.js');
+              const script = require('.github/scripts/checkPRStatus.js');
               await script({ github, context, core });
 
       - name: Merge Release PR
