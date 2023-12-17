@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.2](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.1...v0.7.2) (2023-12-17)
+
+
+### Bug Fixes
+
+* **pipeline scripts:** add missing steps in the release job to locate the scripts ([c8cb0da](https://github.com/noctua84/NestJS-Sandbox/commit/c8cb0dafbb0b7c9526c70655d0e774eb069ea804))
+* **pipeline scripts:** fixed access error for scripts in the pipeline ([b411702](https://github.com/noctua84/NestJS-Sandbox/commit/b4117028bce74cf46bdfd4fb9be54a9adccc1ee4))
+
 ## [0.7.1](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.0...v0.7.1) (2023-12-16)
 
 
