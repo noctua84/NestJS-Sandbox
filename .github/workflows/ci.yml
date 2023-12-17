@@ -261,4 +261,4 @@ jobs:
           context: .
           file: ./docker/Dockerfile
           push: true
-          tags: ghcr.io/${{ $REPOSITORY_NAME }}/${{ $PACKAGE_NAME }}:${{ $PACKAGE_VERSION }}
+          tags: ghcr.io/${{ env.REPOSITORY_NAME }}/${{ env.PACKAGE_NAME }}:${{ env.PACKAGE_VERSION }}
