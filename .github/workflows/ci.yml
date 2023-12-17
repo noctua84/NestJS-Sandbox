@@ -41,12 +41,12 @@ jobs:
 
       - name: Reinstall dependencies
         id: reinstall_dependencies
-        run: npm ci || echo "::set-output name=reinstall_failed::true"
+        run: npm ci || echo "reinstall_failed=true" >> "$GITHUB_OUTPUT"
 
       - name: Check if package.json has changed
         id: check_package_json
         if: steps.reinstall_dependencies.outputs.reinstall_failed != 'true'
-        run: git diff --quiet HEAD -- package.json || echo "::set-output name=changed::true"
+        run: git diff --quiet HEAD -- package.json || echo "changed=true" >> "$GITHUB_OUTPUT"
 
       - name: Persist changes in package.json
         if: steps.check_package_json.outputs.changed == 'true'
@@ -122,7 +122,7 @@ jobs:
           https://api.github.com/repos/${{ github.repository }}/commits/${{ github.head_ref }} \
           | jq -r '.sha')
           if [[ "$current_sha" != "$latest_sha" ]]; then
-          echo "::set-output name=updated::true"
+          echo "updated=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Pull latest changes
@@ -160,7 +160,7 @@ jobs:
           https://api.github.com/repos/${{ github.repository }}/commits/${{ github.head_ref }} \
           | jq -r '.sha')
           if [[ "$current_sha" != "$latest_sha" ]]; then
-          echo "::set-output name=updated::true"
+          echo "updated=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Pull latest changes
@@ -186,7 +186,7 @@ jobs:
             await script({ github, context, core });
 
       - name: Check PR Status
-        if: steps.add_label.outputs.result == 'true'
+        if: steps.add_label.outputs.labelAdded == 'true'
         uses: actions/github-script@v7
         with:
             github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -217,6 +217,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Check for dependency updates
+        id: check_updates
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          current_sha=$(git rev-parse HEAD)
+          latest_sha=$(curl --silent --header "Authorization: token $GITHUB_TOKEN" \
+          https://api.github.com/repos/${{ github.repository }}/commits/${{ github.head_ref }} \
+          | jq -r '.sha')
+          if [[ "$current_sha" != "$latest_sha" ]]; then
+          echo "updated=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Pull latest changes
+        if: steps.check_updates.outputs.updated == 'true'
+        run: git pull
+
       - name: Install jq
         run: sudo apt-get install jq
 
@@ -230,18 +247,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract version and name
-        id: package_info
-        run: |
-          PACKAGE_VERSION=$(jq -r '.version' package.json)
-          PACKAGE_NAME=$(jq -r '.name' package.json | tr '[:upper:]' '[:lower:]')
-          echo "::set-output name=PACKAGE_VERSION::$PACKAGE_VERSION"
-          echo "::set-output name=PACKAGE_NAME::$PACKAGE_NAME"
+      - name: Extract repository info
+        id: extract_info
+        run: ./scripts/extract-repository-info.sh ${{ github.repository }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
+        env:
+          PACKAGE_VERSION: ${{ steps.extract_info.outputs.PACKAGE_VERSION }}
+          PACKAGE_NAME: ${{ steps.extract_info.outputs.PACKAGE_NAME }}
+          REPOSITORY_NAME: ${{ steps.extract_info.outputs.REPOSITORY_NAME }}
         with:
           context: .
           file: ./docker/Dockerfile
           push: true
-          tags: ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')/${{ steps.package_info.outputs.PACKAGE_NAME }}:${{ steps.package_info.outputs.PACKAGE_VERSION }}
+          tags: ghcr.io/${{ $REPOSITORY_NAME }}/${{ $PACKAGE_NAME }}:${{ $PACKAGE_VERSION }}
