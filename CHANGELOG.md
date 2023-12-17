@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.3](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.2...v0.7.3) (2023-12-17)
+
+
+### Bug Fixes
+
+* **pipeline docker:** moved repo data extraction to script file and refactored the steps ([a031dc2](https://github.com/noctua84/NestJS-Sandbox/commit/a031dc2852d91b6d8c27c18b81d07efaf853f5c7))
+* **pipline docker:** fixed env access in docker tag creation ([2ca176c](https://github.com/noctua84/NestJS-Sandbox/commit/2ca176c12e0bf89a169eed36a02ac0e5668d77b9))
+
 ## [0.7.2](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.1...v0.7.2) (2023-12-17)
 
 
