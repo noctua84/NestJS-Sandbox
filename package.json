@@ -1,6 +1,6 @@
 {
   "name": "nestjs-sandbox",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "description": "This is a sandbox project for NestJS",
   "author": "Markus Möller",
   "private": true,

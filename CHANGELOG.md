@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.4](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.3...v0.7.4) (2023-12-18)
+
+
+### Bug Fixes
+
+* **pipeline scripts:** added checks to the release scripts to stop if no PR is present ([6ca1cb6](https://github.com/noctua84/NestJS-Sandbox/commit/6ca1cb6572028ee9bd123a68a4d54266727bcb53))
+
 ## [0.7.3](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.2...v0.7.3) (2023-12-17)
 
 
