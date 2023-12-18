@@ -4,12 +4,14 @@ const extractPrStatus = require('./helper/extractPrStatus.js');
 module.exports = async ({github, context, core}) => {
   const { owner, repo } = context.repo;
   const releasePr = await extractReleaseRr({ github, owner, repo });
-  const prNumber = releasePr.number;
 
-  if (!prNumber) {
-    core.setFailed('No release PR found');
+  if (!releasePr) {
+    core.notice('No release PR found');
+    core.setOutput('ready', 'false')
     return;
   }
+
+  const prNumber = releasePr.number;
 
   let retries = 0;
   const maxRetries = 5;

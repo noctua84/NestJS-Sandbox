@@ -5,9 +5,9 @@ module.exports = async ({github, context, core}) => {
   let labelAdded = false;
   const releasePr = await extractReleasePr({github, owner, repo});
 
-  core.notice(`Found release PR: ${releasePr.number}`);
-
   if (releasePr) {
+    core.notice(`Found release PR: ${releasePr.number}`);
+
     await github.rest.issues.addLabels({
       issue_number: releasePr.number,
       owner,
@@ -19,8 +19,8 @@ module.exports = async ({github, context, core}) => {
     core.setOutput('labelAdded', 'true');
     labelAdded = true;
   } else {
-    core.error('No release PR found');
-    core.setFailed('No release PR found');
+    core.notice('No release PR found');
+    core.setOutput('labelAdded', 'false');
   }
 
   return labelAdded;
