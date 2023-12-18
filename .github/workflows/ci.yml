@@ -186,6 +186,7 @@ jobs:
             await script({ github, context, core });
 
       - name: Check PR Status
+        id: check_pr_status
         if: steps.add_label.outputs.labelAdded == 'true'
         uses: actions/github-script@v7
         with:
@@ -249,7 +250,7 @@ jobs:
 
       - name: Extract repository info
         id: extract_info
-        run: ./scripts/extractRepoInfo.sh ${{ github.repository }}
+        run: ./.github/scripts/extractRepoInfo.sh ${{ github.repository }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
