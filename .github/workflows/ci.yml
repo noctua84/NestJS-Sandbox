@@ -193,7 +193,7 @@ jobs:
             result-encoding: string
             retries: 3
             script: |
-              const script = require('./.github/scripts/checkPRStatus.js');
+              const script = require('./.github/scripts/checkPrStatus.js');
               await script({ github, context, core });
 
       - name: Merge Release PR
@@ -249,7 +249,7 @@ jobs:
 
       - name: Extract repository info
         id: extract_info
-        run: ./scripts/extract-repository-info.sh ${{ github.repository }}
+        run: ./scripts/extractRepoInfo.sh ${{ github.repository }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
