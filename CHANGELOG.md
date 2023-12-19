@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.5](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.4...v0.7.5) (2023-12-19)
+
+
+### Bug Fixes
+
+* **pipeline scripts:** moved sh-script content back into pipeline ([401185c](https://github.com/noctua84/NestJS-Sandbox/commit/401185cf348310f4ee209116c33da25e1d9353aa))
+
 ## [0.7.4](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.3...v0.7.4) (2023-12-18)
 
 
