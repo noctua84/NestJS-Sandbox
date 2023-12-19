@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.7](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.6...v0.7.7) (2023-12-19)
+
+
+### Bug Fixes
+
+* **pipeline:** added missing permission to add docker image to registry ([39581c4](https://github.com/noctua84/NestJS-Sandbox/commit/39581c47deea26a8aea5cd92d8b9d9ab4f2cf7af))
+
 ## [0.7.6](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.5...v0.7.6) (2023-12-19)
 
 
