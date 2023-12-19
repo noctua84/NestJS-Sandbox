@@ -250,7 +250,10 @@ jobs:
 
       - name: Extract repository info
         id: extract_info
-        run: ./.github/scripts/extractRepoInfo.sh ${{ github.repository }}
+        run: |
+          echo "PACKAGE_VERSION=$(jq -r '.version' package.json)" >> "$GITHUB_OUTPUT"
+          echo "PACKAGE_NAME=$(jq -r '.name' package.json)" >> "$GITHUB_OUTPUT"
+          echo "REPOSITORY_NAME=$(echo $GITHUB_REPOSITORY | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
