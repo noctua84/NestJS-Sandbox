@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.6](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.5...v0.7.6) (2023-12-19)
+
+
+### Bug Fixes
+
+* **pipeline:** added log output to automerge action ([397541d](https://github.com/noctua84/NestJS-Sandbox/commit/397541dc4b1bcfd9686da884c317962551f69281))
+
 ## [0.7.5](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.4...v0.7.5) (2023-12-19)
 
 
