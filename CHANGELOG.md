@@ -1,5 +1,102 @@
 # Changelog
 
+## [0.7.6](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.5...v0.7.6) (2023-12-19)
+
+
+### Bug Fixes
+
+* **pipeline:** added log output to automerge action ([397541d](https://github.com/noctua84/NestJS-Sandbox/commit/397541dc4b1bcfd9686da884c317962551f69281))
+
+## [0.7.5](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.4...v0.7.5) (2023-12-19)
+
+
+### Bug Fixes
+
+* **pipeline scripts:** moved sh-script content back into pipeline ([401185c](https://github.com/noctua84/NestJS-Sandbox/commit/401185cf348310f4ee209116c33da25e1d9353aa))
+
+## [0.7.4](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.3...v0.7.4) (2023-12-18)
+
+
+### Bug Fixes
+
+* **pipeline scripts:** added checks to the release scripts to stop if no PR is present ([6ca1cb6](https://github.com/noctua84/NestJS-Sandbox/commit/6ca1cb6572028ee9bd123a68a4d54266727bcb53))
+
+## [0.7.3](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.2...v0.7.3) (2023-12-17)
+
+
+### Bug Fixes
+
+* **pipeline docker:** moved repo data extraction to script file and refactored the steps ([a031dc2](https://github.com/noctua84/NestJS-Sandbox/commit/a031dc2852d91b6d8c27c18b81d07efaf853f5c7))
+* **pipline docker:** fixed env access in docker tag creation ([2ca176c](https://github.com/noctua84/NestJS-Sandbox/commit/2ca176c12e0bf89a169eed36a02ac0e5668d77b9))
+
+## [0.7.2](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.1...v0.7.2) (2023-12-17)
+
+
+### Bug Fixes
+
+* **pipeline scripts:** add missing steps in the release job to locate the scripts ([c8cb0da](https://github.com/noctua84/NestJS-Sandbox/commit/c8cb0dafbb0b7c9526c70655d0e774eb069ea804))
+* **pipeline scripts:** fixed access error for scripts in the pipeline ([b411702](https://github.com/noctua84/NestJS-Sandbox/commit/b4117028bce74cf46bdfd4fb9be54a9adccc1ee4))
+
+## [0.7.1](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.0...v0.7.1) (2023-12-16)
+
+
+### Bug Fixes
+
+* **pipeline scripts:** fixed a typo in the naming of th label script ([0c9b038](https://github.com/noctua84/NestJS-Sandbox/commit/0c9b0383d68e4d062fbbbed4643e5728e88bbd83))
+
+## [0.7.0](https://github.com/noctua84/NestJS-Sandbox/compare/v0.6.3...v0.7.0) (2023-12-15)
+
+
+### Features
+
+* **pipeline scripts:** added pipeline scripts as separate js files ([3cbb90a](https://github.com/noctua84/NestJS-Sandbox/commit/3cbb90a7792b8d6f4107c89f5492742679da5c85))
+
+
+### Bug Fixes
+
+* **pipeline:** fixed another issue with the label step ([842b317](https://github.com/noctua84/NestJS-Sandbox/commit/842b317210c569890a6428fa91f5bdb3f5ffb98b))
+
+## [0.6.3](https://github.com/noctua84/NestJS-Sandbox/compare/v0.6.2...v0.6.3) (2023-12-15)
+
+
+### Bug Fixes
+
+* **pipeline:** wrong label name ([3c13cbc](https://github.com/noctua84/NestJS-Sandbox/commit/3c13cbcd73bb88f7eb98d8954311acffca31a034))
+
+## [0.6.2](https://github.com/noctua84/NestJS-Sandbox/compare/v0.6.1...v0.6.2) (2023-12-15)
+
+
+### Bug Fixes
+
+* **pipeline:** missing merge trigger label ([aa53c7e](https://github.com/noctua84/NestJS-Sandbox/commit/aa53c7eb880f0477df186a838417beab4b0fc5ee))
+* **pipeline:** updated the version of the script action and refined it ([a561e56](https://github.com/noctua84/NestJS-Sandbox/commit/a561e5641677d9fa497558dea4c274389107c879))
+
+## [0.6.1](https://github.com/noctua84/NestJS-Sandbox/compare/v0.6.0...v0.6.1) (2023-12-14)
+
+
+### Bug Fixes
+
+* pipeline bugfix for releas step ([744ea26](https://github.com/noctua84/NestJS-Sandbox/commit/744ea26b48ab970a2289165e286dd8c0539cbb95))
+
+## [0.6.0](https://github.com/noctua84/NestJS-Sandbox/compare/v0.5.0...v0.6.0) (2023-12-13)
+
+
+### Features
+
+* add .env.example as an alternative to dotenv-vault ([7915404](https://github.com/noctua84/NestJS-Sandbox/commit/791540449a9469388a1be84840fb64f2c775f7d2))
+
+
+### Bug Fixes
+
+* reverted a dependency update and added an additional step to the pipeline job ([48e6fd2](https://github.com/noctua84/NestJS-Sandbox/commit/48e6fd25206dfe7896ac756b50c5ff8d2a1023b9))
+
+## [0.5.0](https://github.com/noctua84/NestJS-Sandbox/compare/v0.4.1...v0.5.0) (2023-12-10)
+
+
+### Features
+
+* **docker:** added Dockerfile for deployment ([44b5c1e](https://github.com/noctua84/NestJS-Sandbox/commit/44b5c1e5a3f457ee10b2110ee5393539b042dce3))
+
 ## [0.4.1](https://github.com/noctua84/NestJS-Sandbox/compare/v0.4.0...v0.4.1) (2023-12-09)
 
 
