@@ -2,8 +2,22 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["metrics", "postgresqlExtensions"]
+}
+
+generator erd {
+  provider = "prisma-markdown"
+  output   = "../documentation/ERD.md"
+  title    = "Application ERD"
+}
+
+generator nestjs_dto {
+  provider                        = "prisma-generator-nestjs-dto"
+  output                          = "../src/dto"
+  outputToNestJsResourceStructure = true
+  classValidation                 = true
+  prettier                        = true
 }
 
 datasource db {
@@ -11,8 +25,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Default model to initialize the prisma client - can be changed according to the applications needs.
+/// User model
+/// This model is used to initialize the prisma client and can be changed according to the applications' needs.
 model User {
-  id Int @id @default(autoincrement())
+  /// The user's id (primary key). It is automatically generated.
+  id    Int    @id @default(autoincrement())
+  /// The user's email. It is unique.
   email String @unique
 }
