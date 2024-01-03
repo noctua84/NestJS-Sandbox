@@ -17,6 +17,7 @@ import { FeatureConfigService } from './config/featureconfig/featureconfig.servi
 import { PrismaModule } from './prisma/prisma.module';
 import { MetricsService } from './monitoring/metrics/metrics.service';
 import { PrismaService } from './prisma/prisma.service';
+import appConfig, { appConfigSchema } from './config/app.config';
 
 @Module({
     imports: [
@@ -28,11 +29,12 @@ import { PrismaService } from './prisma/prisma.service';
             isGlobal: true,
             cache: true,
             expandVariables: true,
-            load: [serverConfig, monitoringConfig],
+            load: [serverConfig, monitoringConfig, appConfig],
             validationSchema: Joi.object({
                 ...serverConfigSchema,
                 ...metricsConfigSchema,
                 ...healthCheckConfigSchema,
+                ...appConfigSchema,
             }),
         }),
         MetricsModule,

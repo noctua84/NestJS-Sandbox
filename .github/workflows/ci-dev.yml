@@ -16,19 +16,19 @@ jobs:
   linting:
     name: Linting (ESLint)
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: linting
         run: npm run lint
 
@@ -49,22 +49,22 @@ jobs:
     name: Formatting (Prettier)
     runs-on: ubuntu-latest
     needs: linting
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Pull latest changes
         run: git pull
-      
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: formatting
         run: npm run format
 
@@ -84,38 +84,38 @@ jobs:
   unit_tests:
     name: Unit Tests
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
-      
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: unit testing
         run: npm test
 
   e2e_tests:
     name: End to End Tests
     runs-on: ubuntu-latest
-      
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
-        
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: End to End Tests
         run: npm run test:e2e
 

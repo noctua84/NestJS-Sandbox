@@ -1,5 +1,6 @@
 import { Injectable, OnApplicationShutdown } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { PagingArgs } from './prisma.service.types';
 
 @Injectable()
 export class PrismaService implements OnApplicationShutdown {
@@ -30,5 +31,27 @@ export class PrismaService implements OnApplicationShutdown {
      */
     getPrismaClient(): PrismaClient {
         return this.client;
+    }
+
+    addPaging(start?: number, pageSize?: number): PagingArgs {
+        const pagingType: string = process.env.PAGING_TYPE || 'offset';
+
+        if (start && pageSize) {
+            if (pagingType === 'cursor') {
+                return {
+                    cursor: {
+                        id: start,
+                    },
+                    take: pageSize,
+                };
+            }
+
+            return {
+                skip: (start - 1) * pageSize,
+                take: pageSize,
+            };
+        } else {
+            return {};
+        }
     }
 }

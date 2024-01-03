@@ -22,6 +22,16 @@ The main development branch is develop and everything finished lives in main. Fr
 The app has two continuous integration pipelines: one for the main branch and one for the development branch. The one for the main branch runs coverage scans and build, as well as changlog and release, whereas the one for the development branch runs the tests, linting and formatting jobs.  
 A real continuous integration approach would do everything on the main branch and does not apply any specific branching strategy. This would though colide a bit with release please since it would create a new releas each time a 'fix' or 'feat' commit is done. That is why the ongoing development is done in a dedicated branch whereas the usable state is in the main branch and the releases. 
 
+## NestJS and Microservices
+This application can be transformed into a microservice application by using the NestJS microservice module.
+NestJS supports microservices out of the box. The module is called @nestjs/microservices and the documentation can be found [here](https://docs.nestjs.com/microservices/basics).
+To transfer this application into a microservice, you need to do the following steps:
+- install the microservice module ``` npm install --save @nestjs/microservices ```
+- change the main.ts file to create a microservice instead of a web application.
+  To achieve this, change this line ``` const app: INestApplication = await NestFactory.create(AppModule); ``` 
+  to this line ``` const app: INestMicroservice = await NestFactory.createMicroservice(AppModule, { transport: Transport.TCP }); ```
+The default transport is TCP, but you can also use other transports like Redis, RabbitMQ or gRPC.
+
 ## Tools used:
 - Pipelines:
   - GitHub Actions is used as the default pipeline runner. The repository has two different pipelines, one attached to the dev-branch and one to the main-branch.
@@ -65,7 +75,12 @@ This section contains a list of features, that are implemented and/or planned. A
   - [ ] Migrations
   - [x] Seeds
   - [x] prisma commands (package.json)
-- [ ] API documentation with OpenAPI
+  - [ ] prisma query options as a service method
+    - [x] paging  
+  - [x] prisma generators
+    - [x] [Entity relationship diagram (ERD)](./documentation/prisma-orm.md#erd-generator)  
+    - [x] [NestJS DTOs](./documentation/prisma-orm.md#nestjs-dto-generator)
+- [x] API documentation with OpenAPI
 - [x] Unit tests with Jest
 - [x] Configuration with NestJS Config
 - [x] Configuration schema and validation with Joi
@@ -79,4 +94,5 @@ This section lists topics, that have their own file, where they are discussed in
   
 ### [dotenv-vault](./documentation/dotenv-vault.md)
 ### [Prisma ORM](./documentation/prisma-orm.md)
+### [Entity Relationship Diagram](./documentation/ERD.md)
 

@@ -32,7 +32,7 @@ describe('Monitoring (e2e)', () => {
                 .get('/health')
                 .expect(200)
                 .expect(
-                    '{"status":"ok","info":{"API":{"status":"up","message":"Mocked response for http://localhost:3000/"}},"error":{},"details":{"API":{"status":"up","message":"Mocked response for http://localhost:3000/"}}}',
+                    '{"status":"ok","info":{"API":{"status":"up","message":"Mocked response for http://localhost:3000/"},"Documentation":{"status":"up","message":"Mocked response for http://localhost:3000/documentation"}},"error":{},"details":{"API":{"status":"up","message":"Mocked response for http://localhost:3000/"},"Documentation":{"status":"up","message":"Mocked response for http://localhost:3000/documentation"}}}',
                 );
         });
     });

@@ -1,8 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HealthController } from './health.controller';
-import { HealthIndicatorResult, TerminusModule } from '@nestjs/terminus';
+import {
+    HealthCheckResult,
+    HealthIndicatorResult,
+    TerminusModule,
+} from '@nestjs/terminus';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { HEALTH_CHECK_KEYS } from './health.constants';
 
 describe('HealthController', () => {
     let controller: HealthController;
@@ -38,10 +43,15 @@ describe('HealthController', () => {
             },
         };
 
-        jest.spyOn(controller['http'], 'pingCheck').mockResolvedValueOnce(
-            result,
+        jest.spyOn(controller['http'], 'pingCheck').mockImplementation(
+            (indicator: string) => {
+                if (Object.keys(HEALTH_CHECK_KEYS).includes(indicator)) {
+                    return Promise.resolve(result);
+                }
+            },
         );
-        const response = await controller.check();
+
+        const response: HealthCheckResult = await controller.check();
 
         expect(response.status).toBe('ok');
         expect(response.info).toBeDefined();
