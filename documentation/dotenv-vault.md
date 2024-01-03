@@ -58,5 +58,24 @@ npm run vault:keys:ci
 ```
 Important: After the last command, the ci will output the decryption key for the ci environment. Copy this value and add it to your repository as secret(github-actions) or as a project environment variable (circle ci) unter the key DOTENV_KEY. The .env.vault file will be decrypted automatically.  
 For more information, take a look at the [documentation](https://www.dotenv.org/docs)  
-  
+
+## Manageable Environments
+- development (default): .env
+- ci: .env.ci
+- staging: .env.staging
+- production: .env.production
+
+If more than the dev-environment is managed in the repository, you have to specify the environment to sync with.  
+This can be done by using the above commands with the environment name as suffix.  
+For the development environment, the suffix is not needed.  
+Example:
+```bash
+# push data to ci environment:
+npm run vault:push ci
+```
+
+## Known Issues
+The .env file is set up to use composite env-variables.  
+These entries are currently removed from the .env file by the vault-cli and have to be added manually after syncing the file.
+
 [back](../README.md)
