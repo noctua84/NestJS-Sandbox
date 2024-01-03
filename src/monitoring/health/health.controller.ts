@@ -6,6 +6,7 @@ import {
     HealthCheckService,
     HttpHealthIndicator,
 } from '@nestjs/terminus';
+import { HEALTH_CHECK_KEYS } from './health.constants';
 
 @Controller('health')
 export class HealthController {
@@ -21,9 +22,14 @@ export class HealthController {
         const indicators = [];
         const baseUrl = this.config.get('server.baseUrl');
 
-        indicators.push(() => this.http.pingCheck('API', `${baseUrl}/`));
         indicators.push(() =>
-            this.http.pingCheck('Documentation', `${baseUrl}/documentation`),
+            this.http.pingCheck(HEALTH_CHECK_KEYS.api, `${baseUrl}/`),
+        );
+        indicators.push(() =>
+            this.http.pingCheck(
+                HEALTH_CHECK_KEYS.documentation,
+                `${baseUrl}/documentation`,
+            ),
         );
 
         return this.health.check(indicators);
