@@ -2,6 +2,7 @@ import { Controller, Get, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import {
     HealthCheck,
+    HealthCheckResult,
     HealthCheckService,
     HttpHealthIndicator,
 } from '@nestjs/terminus';
@@ -16,11 +17,14 @@ export class HealthController {
 
     @Get()
     @HealthCheck()
-    check() {
+    check(): Promise<HealthCheckResult> {
         const indicators = [];
         const baseUrl = this.config.get('server.baseUrl');
 
         indicators.push(() => this.http.pingCheck('API', `${baseUrl}/`));
+        indicators.push(() =>
+            this.http.pingCheck('Documentation', `${baseUrl}/documentation`),
+        );
 
         return this.health.check(indicators);
     }
