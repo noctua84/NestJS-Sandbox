@@ -116,9 +116,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Environment
-        run: echo GITHUB.env 
-
       - name: End to End Tests
         run: npm run test:e2e
 
