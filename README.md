@@ -1,6 +1,7 @@
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![CodeFactor](https://www.codefactor.io/repository/github/noctua84/nestjs-sandbox/badge)](https://www.codefactor.io/repository/github/noctua84/nestjs-sandbox)
-[![codecov](https://codecov.io/gh/noctua84/NestJS-Sandbox/graph/badge.svg?token=JZMjRX3oRi)](https://codecov.io/gh/noctua84/NestJS-Sandbox)  
+[![codecov](https://codecov.io/gh/noctua84/NestJS-Sandbox/graph/badge.svg?token=JZMjRX3oRi)](https://codecov.io/gh/noctua84/NestJS-Sandbox) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fnoctua84%2FNestJS-Sandbox.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fnoctua84%2FNestJS-Sandbox?ref=badge_shield)
+ 
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
@@ -96,3 +97,7 @@ This section lists topics, that have their own file, where they are discussed in
 ### [Prisma ORM](./documentation/prisma-orm.md)
 ### [Entity Relationship Diagram](./documentation/ERD.md)
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fnoctua84%2FNestJS-Sandbox.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fnoctua84%2FNestJS-Sandbox?ref=badge_large)
