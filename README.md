@@ -8,7 +8,6 @@
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=bugs)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
-
   
 # NestJS Sandbox API-App
 This application is mainly a playground to test technology concerning APIs and TypeScript.  
@@ -69,7 +68,7 @@ This section contains a list of features, that are implemented and/or planned. A
     - [x] Service method for summary
 - [x] Healthcheck with Terminus (certain endpoints and database)
   - [x] Healthcheck for root endpoint
-  - [ ] Healthcheck for a database
+  - [x] Healthcheck for a database
 - [x] Database interaction with Prisma
   - [x] Enable prometheus metrics for prisma (usage)
   - [ ] Migrations
@@ -91,8 +90,7 @@ This section contains a list of features, that are implemented and/or planned. A
 
 ## Documentation:
 This section lists topics, that have their own file, where they are discussed in detail but in scope of the application.  
-  
-### [dotenv-vault](./documentation/dotenv-vault.md)
-### [Prisma ORM](./documentation/prisma-orm.md)
-### [Entity Relationship Diagram](./documentation/ERD.md)
+- [dotenv-vault](./documentation/dotenv-vault.md)  
+- [Prisma ORM](./documentation/prisma-orm.md)
+- [Entity Relationship Diagram](./documentation/ERD.md)
 
