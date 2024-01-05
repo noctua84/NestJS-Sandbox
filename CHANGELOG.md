@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.8.0](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.7...v0.8.0) (2024-01-03)
+
+
+### Features
+
+* add openapi documentation ([7b61a03](https://github.com/noctua84/NestJS-Sandbox/commit/7b61a031e6ab511f44d8efc28d9266f8f6019adc))
+* autogenerate nestjs dtos and entities from prisma schema ([460b1a5](https://github.com/noctua84/NestJS-Sandbox/commit/460b1a5791e39184076a0b7a866bdf27b16221d4))
+* prisma service methods: addpaging ([da36ddf](https://github.com/noctua84/NestJS-Sandbox/commit/da36ddfac7da003928c1716ef1e2e999bea26410))
+
+## [0.7.7](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.6...v0.7.7) (2023-12-19)
+
+
+### Bug Fixes
+
+* **pipeline:** added missing permission to add docker image to registry ([39581c4](https://github.com/noctua84/NestJS-Sandbox/commit/39581c47deea26a8aea5cd92d8b9d9ab4f2cf7af))
+
 ## [0.7.6](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.5...v0.7.6) (2023-12-19)
 
 

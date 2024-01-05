@@ -11,3 +11,5 @@ coverage:
     - "**/*.constants.de"
     - "**/main.ts"
     - "**/repl.ts"
+    - "**/*.dto.ts"
+    - "**/*.entity.ts"
