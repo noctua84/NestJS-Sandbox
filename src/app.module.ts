@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { HealthModule } from './monitoring/health/health.module';
@@ -79,7 +79,7 @@ export class AppModule {
     constructor(private readonly featureFlags: FeatureConfigService) {}
 
     configure(consumer: MiddlewareConsumer) {
-        if (this.featureFlags.isMetricsEnabled()) {
+        if (this.featureFlags.isMetricsEnabled() === 'true') {
             consumer.apply(RouteMetricsMiddleware).forRoutes('*');
         }
     }
