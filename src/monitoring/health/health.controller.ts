@@ -53,8 +53,6 @@ export class HealthController {
             );
         }
 
-        console.log(indicators);
-
         return this.health.check(indicators);
     }
 }
