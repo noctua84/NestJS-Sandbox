@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { HealthModule } from './monitoring/health/health.module';
@@ -19,12 +19,8 @@ import { MetricsService } from './monitoring/metrics/metrics.service';
 import { PrismaService } from './prisma/prisma.service';
 import appConfig, { appConfigSchema } from './config/app.config';
 
-@Module({
-    imports: [
-        DevtoolsModule.register({
-            http: process.env.NODE_ENV !== 'production',
-        }),
-        HealthModule,
+const composeModules = () => {
+    const registeredModules: any = [
         ConfigModule.forRoot({
             isGlobal: true,
             cache: true,
@@ -37,17 +33,47 @@ import appConfig, { appConfigSchema } from './config/app.config';
                 ...appConfigSchema,
             }),
         }),
-        MetricsModule,
         FeatureConfigModule,
         PrismaModule,
-    ],
-    controllers: [AppController],
-    providers: [
+    ];
+
+    if (process.env.ENABLE_DEVTOOLS === 'true') {
+        registeredModules.push(
+            DevtoolsModule.register({
+                http: process.env.NODE_ENV !== 'production',
+            }),
+        );
+    }
+
+    if (process.env.ENABLE_METRICS === 'true') {
+        registeredModules.push(MetricsModule);
+    }
+
+    if (process.env.ENABLE_HEALTH_CHECK === 'true') {
+        registeredModules.push(HealthModule);
+    }
+
+    return registeredModules;
+};
+
+const composeProviders = () => {
+    const registeredProviders: any = [
         AppService,
         FeatureConfigService,
-        MetricsService,
         PrismaService,
-    ],
+    ];
+
+    if (process.env.ENABLE_METRICS === 'true') {
+        registeredProviders.push(MetricsService);
+    }
+
+    return registeredProviders;
+};
+
+@Module({
+    imports: composeModules(),
+    controllers: [AppController],
+    providers: composeProviders(),
 })
 export class AppModule {
     constructor(private readonly featureFlags: FeatureConfigService) {}
