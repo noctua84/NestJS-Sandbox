@@ -4,8 +4,12 @@ import { AppModule } from '../src/app.module';
 import { HealthModule } from '../src/monitoring/health/health.module';
 import { MetricsModule } from '../src/monitoring/metrics/metrics.module';
 import request from 'supertest';
-import { HttpHealthIndicator } from '@nestjs/terminus';
-import { MockHttpHealthIndicator } from './mocks/e2e/health.controller.mock';
+import { HttpHealthIndicator, PrismaHealthIndicator } from '@nestjs/terminus';
+import {
+    MockHealthCheckResult,
+    MockHttpHealthIndicator,
+    MockPrismaHealthIndicator,
+} from './mocks/e2e/health.controller.mock';
 
 describe('Monitoring (e2e)', () => {
     let app: INestApplication;
@@ -16,6 +20,8 @@ describe('Monitoring (e2e)', () => {
         })
             .overrideProvider(HttpHealthIndicator)
             .useClass(MockHttpHealthIndicator)
+            .overrideProvider(PrismaHealthIndicator)
+            .useClass(MockPrismaHealthIndicator)
             .compile();
 
         app = moduleFixture.createNestApplication();
@@ -31,9 +37,7 @@ describe('Monitoring (e2e)', () => {
             return request(app.getHttpServer())
                 .get('/health')
                 .expect(200)
-                .expect(
-                    '{"status":"ok","info":{"API":{"status":"up","message":"Mocked response for http://localhost:3000/"},"Documentation":{"status":"up","message":"Mocked response for http://localhost:3000/documentation"}},"error":{},"details":{"API":{"status":"up","message":"Mocked response for http://localhost:3000/"},"Documentation":{"status":"up","message":"Mocked response for http://localhost:3000/documentation"}}}',
-                );
+                .expect(MockHealthCheckResult);
         });
     });
 
