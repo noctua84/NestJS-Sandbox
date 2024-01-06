@@ -10,13 +10,17 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HEALTH_CHECK_KEYS } from './health.constants';
 import { PrismaService } from '../../prisma/prisma.service';
 import { PrismaModule } from '../../prisma/prisma.module';
+import { FeatureConfigService } from '../../config/featureconfig/featureconfig.service';
+import { FeatureConfigModule } from '../../config/featureconfig/featureconfig.module';
 
 jest.mock('../../prisma/prisma.service');
+jest.mock('../../config/featureconfig/featureconfig.service');
 
 describe('HealthController', () => {
     let controller: HealthController;
     let config: ConfigService;
     let prisma: PrismaService;
+    let featureFlags: FeatureConfigService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -25,48 +29,80 @@ describe('HealthController', () => {
                 TerminusModule.forRoot(),
                 ConfigModule.forRoot(),
                 PrismaModule,
+                FeatureConfigModule,
             ],
             controllers: [HealthController],
-            providers: [ConfigService, PrismaService],
+            providers: [ConfigService, PrismaService, FeatureConfigService],
         }).compile();
 
         controller = module.get<HealthController>(HealthController);
         config = module.get<ConfigService>(ConfigService);
         prisma = module.get<PrismaService>(PrismaService);
+        featureFlags = module.get<FeatureConfigService>(FeatureConfigService);
     });
 
     it('should be defined', () => {
         expect(controller).toBeDefined();
         expect(config).toBeDefined();
         expect(prisma).toBeDefined();
+        expect(featureFlags).toBeDefined();
     });
 
-    it('should have a health check response with details of all indicators when there are no indicators to check', async () => {
-        const result: HealthIndicatorResult = {
-            info: {
-                status: 'up',
-            },
-            error: {
-                status: 'up',
-            },
-        };
+    it.each([true, false])(
+        'should have a health check response with details of all indicators',
+        async (metricsEnabled: boolean) => {
+            const httpResults: HealthIndicatorResult = {};
+            httpResults[HEALTH_CHECK_KEYS.api] = { status: 'up' };
+            httpResults[HEALTH_CHECK_KEYS.documentation] = { status: 'up' };
 
-        jest.spyOn(controller['http'], 'pingCheck').mockImplementation(
-            (indicator: string) => {
-                if (Object.keys(HEALTH_CHECK_KEYS).includes(indicator)) {
-                    return Promise.resolve(result);
-                }
-            },
-        );
+            if (metricsEnabled) {
+                console.log('metrics enabled');
+                httpResults[HEALTH_CHECK_KEYS.metrics] = { status: 'up' };
+            }
 
-        jest.spyOn(controller['prisma'], 'pingCheck').mockImplementation(() => {
-            return Promise.resolve({ status: 'up' });
-        });
+            console.log(httpResults);
 
-        const response: HealthCheckResult = await controller.check();
+            jest.spyOn(featureFlags, 'isMetricsEnabled').mockReturnValue(
+                metricsEnabled,
+            );
 
-        expect(response.status).toBe('ok');
-        expect(response.info).toBeDefined();
-        expect(response.error).toBeDefined();
-    });
+            jest.spyOn(controller['http'], 'pingCheck').mockImplementation(
+                (indicator: string) => {
+                    console.log(indicator);
+                    if (indicator in HEALTH_CHECK_KEYS) {
+                        return Promise.resolve({
+                            [indicator]: httpResults[indicator],
+                        });
+                    }
+                },
+            );
+
+            jest.spyOn(controller['prisma'], 'pingCheck').mockImplementation(
+                () => {
+                    return Promise.resolve({
+                        Database: {
+                            status: 'up',
+                        },
+                    });
+                },
+            );
+
+            const response: HealthCheckResult = await controller.check();
+
+            expect(response.status).toBe('ok');
+            expect(response.info).toBeDefined();
+            expect(response.error).toBeDefined();
+
+            if (metricsEnabled) {
+                console.log(response);
+                expect(response.details).toHaveProperty(
+                    HEALTH_CHECK_KEYS.metrics,
+                );
+            } else {
+                expect(response.details).not.toHaveProperty(
+                    HEALTH_CHECK_KEYS.metrics,
+                );
+            }
+        },
+    );
 });

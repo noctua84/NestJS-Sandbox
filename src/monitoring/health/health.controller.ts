@@ -9,6 +9,7 @@ import {
 } from '@nestjs/terminus';
 import { HEALTH_CHECK_KEYS } from './health.constants';
 import { PrismaService } from '../../prisma/prisma.service';
+import { FeatureConfigService } from '../../config/featureconfig/featureconfig.service';
 
 @Controller('health')
 export class HealthController {
@@ -18,6 +19,7 @@ export class HealthController {
         private http: HttpHealthIndicator,
         private prisma: PrismaHealthIndicator,
         private client: PrismaService,
+        private featureFlags: FeatureConfigService,
     ) {}
 
     @Get()
@@ -41,6 +43,17 @@ export class HealthController {
                 this.client.getPrismaClient(),
             ),
         );
+
+        if (this.featureFlags.isMetricsEnabled() === 'true') {
+            indicators.push(() =>
+                this.http.pingCheck(
+                    HEALTH_CHECK_KEYS.metrics,
+                    `${baseUrl}/metrics`,
+                ),
+            );
+        }
+
+        console.log(indicators);
 
         return this.health.check(indicators);
     }
