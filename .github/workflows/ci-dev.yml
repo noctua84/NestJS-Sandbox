@@ -117,6 +117,10 @@ jobs:
         run: npm ci
 
       - name: End to End Tests
+        env:
+          ENABLE_METRICS: true
+          ENABLE_HEALTH_CHECK: true
+          DATABASE_URL: "postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?schema=public"
         run: npm run test:e2e
 
   sonarcloud:
