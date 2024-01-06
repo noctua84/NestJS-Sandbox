@@ -29,7 +29,9 @@ To transfer this application into a microservice, you need to do the following s
 - change the main.ts file to create a microservice instead of a web application.
   To achieve this, change this line ``` const app: INestApplication = await NestFactory.create(AppModule); ``` 
   to this line ``` const app: INestMicroservice = await NestFactory.createMicroservice(AppModule, { transport: Transport.TCP }); ```
-The default transport is TCP, but you can also use other transports like Redis, RabbitMQ or gRPC.
+The default transport is TCP, but you can also use other transports like Redis, RabbitMQ or gRPC.  
+A good source for health checks in microservices is [this](https://github.com/nestjs/terminus/blob/master/sample/002-microservice-app/src/health/health.controller.ts) example from nestjs/terminus
+as well as [this](https://github.com/nestjs/terminus/blob/master/sample/004-grpc-app/src/server/health/health.controller.ts) example for grpc.
 
 ## Tools used:
 - Pipelines:
@@ -68,6 +70,9 @@ This section contains a list of features, that are implemented and/or planned. A
     - [x] Service method for summary
 - [x] Healthcheck with Terminus (certain endpoints and database)
   - [x] Healthcheck for root endpoint
+  - [x] Healthcheck for certain endpoints
+    - [x] Healthcheck for metrics (optional)
+    - [x] Healthcheck for OpenAPI
   - [x] Healthcheck for a database
 - [x] Database interaction with Prisma
   - [x] Enable prometheus metrics for prisma (usage)
