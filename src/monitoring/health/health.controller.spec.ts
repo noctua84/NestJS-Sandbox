@@ -8,10 +8,15 @@ import {
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HEALTH_CHECK_KEYS } from './health.constants';
+import { PrismaService } from '../../prisma/prisma.service';
+import { PrismaModule } from '../../prisma/prisma.module';
+
+jest.mock('../../prisma/prisma.service');
 
 describe('HealthController', () => {
     let controller: HealthController;
     let config: ConfigService;
+    let prisma: PrismaService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
@@ -19,18 +24,21 @@ describe('HealthController', () => {
                 HttpModule,
                 TerminusModule.forRoot(),
                 ConfigModule.forRoot(),
+                PrismaModule,
             ],
             controllers: [HealthController],
-            providers: [ConfigService],
+            providers: [ConfigService, PrismaService],
         }).compile();
 
         controller = module.get<HealthController>(HealthController);
         config = module.get<ConfigService>(ConfigService);
+        prisma = module.get<PrismaService>(PrismaService);
     });
 
     it('should be defined', () => {
         expect(controller).toBeDefined();
         expect(config).toBeDefined();
+        expect(prisma).toBeDefined();
     });
 
     it('should have a health check response with details of all indicators when there are no indicators to check', async () => {
@@ -50,6 +58,10 @@ describe('HealthController', () => {
                 }
             },
         );
+
+        jest.spyOn(controller['prisma'], 'pingCheck').mockImplementation(() => {
+            return Promise.resolve({ status: 'up' });
+        });
 
         const response: HealthCheckResult = await controller.check();
 

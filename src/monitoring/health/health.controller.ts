@@ -5,8 +5,10 @@ import {
     HealthCheckResult,
     HealthCheckService,
     HttpHealthIndicator,
+    PrismaHealthIndicator,
 } from '@nestjs/terminus';
 import { HEALTH_CHECK_KEYS } from './health.constants';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Controller('health')
 export class HealthController {
@@ -14,6 +16,8 @@ export class HealthController {
         @Inject(ConfigService) private config: ConfigService,
         private health: HealthCheckService,
         private http: HttpHealthIndicator,
+        private prisma: PrismaHealthIndicator,
+        private client: PrismaService,
     ) {}
 
     @Get()
@@ -29,6 +33,12 @@ export class HealthController {
             this.http.pingCheck(
                 HEALTH_CHECK_KEYS.documentation,
                 `${baseUrl}/documentation`,
+            ),
+        );
+        indicators.push(() =>
+            this.prisma.pingCheck(
+                HEALTH_CHECK_KEYS.db,
+                this.client.getPrismaClient(),
             ),
         );
 
