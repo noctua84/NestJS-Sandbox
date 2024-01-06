@@ -48,19 +48,16 @@ describe('HealthController', () => {
         expect(featureFlags).toBeDefined();
     });
 
-    it.each([true, false])(
+    it.each(['true', 'false'])(
         'should have a health check response with details of all indicators',
-        async (metricsEnabled: boolean) => {
+        async (metricsEnabled: string) => {
             const httpResults: HealthIndicatorResult = {};
             httpResults[HEALTH_CHECK_KEYS.api] = { status: 'up' };
             httpResults[HEALTH_CHECK_KEYS.documentation] = { status: 'up' };
 
             if (metricsEnabled) {
-                console.log('metrics enabled');
                 httpResults[HEALTH_CHECK_KEYS.metrics] = { status: 'up' };
             }
-
-            console.log(httpResults);
 
             jest.spyOn(featureFlags, 'isMetricsEnabled').mockReturnValue(
                 metricsEnabled,
@@ -68,7 +65,6 @@ describe('HealthController', () => {
 
             jest.spyOn(controller['http'], 'pingCheck').mockImplementation(
                 (indicator: string) => {
-                    console.log(indicator);
                     if (indicator in HEALTH_CHECK_KEYS) {
                         return Promise.resolve({
                             [indicator]: httpResults[indicator],
@@ -94,7 +90,6 @@ describe('HealthController', () => {
             expect(response.error).toBeDefined();
 
             if (metricsEnabled) {
-                console.log(response);
                 expect(response.details).toHaveProperty(
                     HEALTH_CHECK_KEYS.metrics,
                 );
