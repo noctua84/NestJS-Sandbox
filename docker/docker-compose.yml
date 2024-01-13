@@ -7,11 +7,12 @@ services:
     volumes:
       - .:/app
     env_file:
-      - .env
+      - ../.env
     environment:
       BASE_URL: https://${HOSTNAME}:${PORT}
       DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:${DB_PORT}/${DB_NAME}?schema=public
-    command: npm run start:dev
+    command: >
+      sh -c "npm run prisma:migrate:dev && npm run start:dev"
     ports:
       - 3000:3000
     depends_on:
