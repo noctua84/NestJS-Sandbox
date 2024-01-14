@@ -44,7 +44,7 @@ export class HealthController {
             ),
         );
 
-        if (this.featureFlags.isMetricsEnabled() === 'true') {
+        if (this.featureFlags.isMetricsEnabled()) {
             indicators.push(() =>
                 this.http.pingCheck(
                     HEALTH_CHECK_KEYS.metrics,
