@@ -51,7 +51,7 @@
     "@nestjs/swagger": "^7.1.17",
     "@nestjs/terminus": "^10.2.0",
     "@prisma/client": "^5.7.1",
-    "axios": "^1.6.2",
+    "axios": "^1.6.5",
     "class-validator": "^0.14.0",
     "dotenv-expand": "^10.0.0",
     "dotenv-vault": "^1.25.0",
