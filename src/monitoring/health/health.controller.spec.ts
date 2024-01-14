@@ -3,6 +3,7 @@ import { HealthController } from './health.controller';
 import {
     HealthCheckResult,
     HealthIndicatorResult,
+    HealthIndicatorStatus,
     TerminusModule,
 } from '@nestjs/terminus';
 import { HttpModule } from '@nestjs/axios';
@@ -48,56 +49,55 @@ describe('HealthController', () => {
         expect(featureFlags).toBeDefined();
     });
 
-    it.each(['true', 'false'])(
-        'should have a health check response with details of all indicators',
-        async (metricsEnabled: string) => {
-            const httpResults: HealthIndicatorResult = {};
-            httpResults[HEALTH_CHECK_KEYS.api] = { status: 'up' };
-            httpResults[HEALTH_CHECK_KEYS.documentation] = { status: 'up' };
+    describe('check', () => {
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
 
-            if (metricsEnabled) {
-                httpResults[HEALTH_CHECK_KEYS.metrics] = { status: 'up' };
-            }
+        it.each(['up', 'down'])(
+            'should return a health check result with status %s for all default checks',
+            async (status: string) => {
+                const httpResults: HealthIndicatorResult = {};
+                const currentStatus: HealthIndicatorStatus =
+                    status as HealthIndicatorStatus;
 
-            jest.spyOn(featureFlags, 'isMetricsEnabled').mockReturnValue(
-                metricsEnabled,
-            );
+                httpResults[HEALTH_CHECK_KEYS.api] = { status: currentStatus };
+                httpResults[HEALTH_CHECK_KEYS.documentation] = {
+                    status: currentStatus,
+                };
 
-            jest.spyOn(controller['http'], 'pingCheck').mockImplementation(
-                (indicator: string) => {
-                    if (indicator in HEALTH_CHECK_KEYS) {
-                        return Promise.resolve({
-                            [indicator]: httpResults[indicator],
-                        });
-                    }
-                },
-            );
+                jest.spyOn(controller['http'], 'pingCheck').mockImplementation(
+                    async (key: string) => {
+                        return { [key]: { status: currentStatus } };
+                    },
+                );
 
-            jest.spyOn(controller['prisma'], 'pingCheck').mockImplementation(
-                () => {
-                    return Promise.resolve({
-                        Database: {
-                            status: 'up',
-                        },
-                    });
-                },
-            );
+                jest.spyOn(
+                    controller['prisma'],
+                    'pingCheck',
+                ).mockImplementation(async () => {
+                    return { [HEALTH_CHECK_KEYS.db]: { status: status } };
+                });
 
-            const response: HealthCheckResult = await controller.check();
+                const response: HealthCheckResult = await controller.check();
 
-            expect(response.status).toBe('ok');
-            expect(response.info).toBeDefined();
-            expect(response.error).toBeDefined();
-
-            if (metricsEnabled) {
+                expect(response.status).toBe('ok');
+                expect(response.info).toBeDefined();
+                expect(response.error).toBeDefined();
+                expect(response.details).toHaveProperty(HEALTH_CHECK_KEYS.api);
                 expect(response.details).toHaveProperty(
-                    HEALTH_CHECK_KEYS.metrics,
+                    HEALTH_CHECK_KEYS.documentation,
                 );
-            } else {
-                expect(response.details).not.toHaveProperty(
-                    HEALTH_CHECK_KEYS.metrics,
-                );
-            }
-        },
-    );
+                expect(response.details).toHaveProperty(HEALTH_CHECK_KEYS.db);
+                expect(response.error).toStrictEqual({});
+
+                Object.keys(response.details).forEach((key: string) => {
+                    expect(response.details[key]).toHaveProperty(
+                        'status',
+                        currentStatus,
+                    );
+                });
+            },
+        );
+    });
 });
