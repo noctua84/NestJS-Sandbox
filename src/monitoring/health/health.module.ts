@@ -27,7 +27,7 @@ export class HealthModule {
     constructor(private readonly featureFlags: FeatureConfigService) {}
 
     configure(consumer: MiddlewareConsumer) {
-        if (this.featureFlags.isMetricsEnabled() === 'true') {
+        if (this.featureFlags.isMetricsEnabled()) {
             consumer.apply(RouteMetricsMiddleware).forRoutes('*');
         }
     }

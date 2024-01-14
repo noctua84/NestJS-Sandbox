@@ -7,7 +7,7 @@ export default registerAs('monitoring', () => ({
 }));
 
 export const metricsConfig = {
-    enabled: process.env.ENABLE_METRICS,
+    enabled: process.env.ENABLE_METRICS === 'true',
 };
 
 export const metricsConfigSchema = {
@@ -15,7 +15,7 @@ export const metricsConfigSchema = {
 };
 
 export const healthCheckConfig = {
-    enabled: process.env.ENABLE_HEALTH_CHECK,
+    enabled: process.env.ENABLE_HEALTH_CHECK === 'true',
 };
 
 export const healthCheckConfigSchema = {

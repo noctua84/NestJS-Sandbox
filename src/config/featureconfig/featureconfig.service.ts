@@ -8,12 +8,14 @@ export class FeatureConfigService {
         metrics: 'monitoring.metrics.enabled',
         healthCheck: 'monitoring.health.enabled',
     };
-    private readonly metricsEnabled: boolean | string;
-    private readonly healthCheckEnabled: boolean | string;
+    private readonly metricsEnabled: boolean;
+    private readonly healthCheckEnabled: boolean;
 
     constructor(private configService: ConfigService) {
-        const metrics = this.configService.get(this.featureFlags.metrics);
-        const healthCheck = this.configService.get(
+        const metrics: boolean = this.configService.get<boolean>(
+            this.featureFlags.metrics,
+        );
+        const healthCheck: boolean = this.configService.get<boolean>(
             this.featureFlags.healthCheck,
         );
 
@@ -31,11 +33,11 @@ export class FeatureConfigService {
      * This class is meant to contain all the feature flags.
      * There are currently no feature flags, so this class is empty.
      * */
-    isMetricsEnabled(): boolean | string {
+    isMetricsEnabled(): boolean {
         return this.metricsEnabled;
     }
 
-    isHealthCheckEnabled(): boolean | string {
+    isHealthCheckEnabled(): boolean {
         return this.healthCheckEnabled;
     }
 }
