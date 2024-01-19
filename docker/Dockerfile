@@ -1,7 +1,7 @@
 # Stage 1: development
 FROM node:20 AS development
 
-RUN apt-get update && apt-get install -y openssl
+RUN apt-get update && apt-get install -y openssl=3.2.0
 
 # create app directory
 WORKDIR /app
@@ -47,6 +47,8 @@ USER node
 # -----------------------------------------------------------
 # Stage 3: production
 FROM node:20-alpine AS production
+
+WORKDIR /
 
 COPY --chown=node:node --from=builder /app/node_modules ./node_modules
 COPY --chown=node:node --from=builder /app/dist ./dist
