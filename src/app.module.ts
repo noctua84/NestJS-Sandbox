@@ -8,7 +8,6 @@ import { ConfigModule } from '@nestjs/config';
 import serverConfig, { serverConfigSchema } from './config/server.config';
 import { MetricsModule } from './monitoring/metrics/metrics.module';
 import monitoringConfig, {
-    healthCheckConfigSchema,
     metricsConfigSchema,
 } from './config/monitoring.config';
 import { RouteMetricsMiddleware } from './monitoring/metrics/middleware/route/route.metrics.middleware';
@@ -29,7 +28,6 @@ const composeModules = () => {
             validationSchema: Joi.object({
                 ...serverConfigSchema,
                 ...metricsConfigSchema,
-                ...healthCheckConfigSchema,
                 ...appConfigSchema,
             }),
         }),

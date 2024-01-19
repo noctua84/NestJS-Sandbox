@@ -6,27 +6,21 @@ export class FeatureConfigService {
     private readonly logger: Logger = new Logger(FeatureConfigService.name);
     private readonly featureFlags = {
         metrics: 'monitoring.metrics.enabled',
-        healthCheck: 'monitoring.health.enabled',
     };
     private readonly metricsEnabled: boolean;
-    private readonly healthCheckEnabled: boolean;
 
     constructor(private configService: ConfigService) {
         const metrics: boolean = this.configService.get<boolean>(
             this.featureFlags.metrics,
         );
-        const healthCheck: boolean = this.configService.get<boolean>(
-            this.featureFlags.healthCheck,
-        );
 
-        if (!metrics || !healthCheck) {
+        if (!metrics) {
             this.logger.warn(
                 'Metrics or health check feature flag not set. Defaulting to false.',
             );
         }
 
         this.metricsEnabled = metrics || false;
-        this.healthCheckEnabled = healthCheck || false;
     }
 
     /**
@@ -35,9 +29,5 @@ export class FeatureConfigService {
      * */
     isMetricsEnabled(): boolean {
         return this.metricsEnabled;
-    }
-
-    isHealthCheckEnabled(): boolean {
-        return this.healthCheckEnabled;
     }
 }
