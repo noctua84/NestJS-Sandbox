@@ -12,5 +12,3 @@ export const metricsConfig = {
 export const metricsConfigSchema = {
     ENABLE_METRICS: Joi.boolean().default(false),
 };
-
-
