@@ -4,8 +4,14 @@ import { writeFileSync } from 'fs';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { INestApplication } from '@nestjs/common';
+import { otelSDK } from './monitoring/tracing/tracing';
 
 async function bootstrap() {
+    if (process.env.ENABLE_TRACING === 'true') {
+        // change process.env.npm_package_name to your service name if needed.
+        otelSDK.start();
+    }
+
     const app: INestApplication = await NestFactory.create(AppModule, {
         snapshot: true,
         abortOnError: false,
