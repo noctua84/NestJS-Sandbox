@@ -200,10 +200,10 @@ jobs:
         run: cp .env.example .env
 
       - name: Test Docker Compose
-        run: docker-compose --file docker/docker-compose.yml --env-file .env config
+        run: docker-compose --file docker/docker-compose.yml config
 
       - name: Start Containers
-        run: docker-compose --file docker/docker-compose.yml --env-file .env up --detach
+        run: docker-compose --file docker/docker-compose.yml up --detach
 
       - name: Check Containers are healthy
         run: |
