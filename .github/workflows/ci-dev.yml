@@ -174,10 +174,13 @@ jobs:
       - name: Build Docker Image
         run: docker build --file docker/Dockerfile --target production --tag nestjs-sandbox:${GITHUB_SHA} .
 
+      - name: List Docker Images
+        run: docker images
+
       - name: Scan Docker Image with Trivy
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: "nestjs-sandbox:${GITHUB_SHA}"
+          image-ref: "nestjs-sandbox:${{ github.sha }}"
           exit-code: 1
           vuln-type: "os,library"
           format: "table"
