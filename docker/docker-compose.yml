@@ -20,7 +20,7 @@ services:
     volumes:
       - .:/app
     env_file:
-      - .env
+      - ../.env
     environment:
       <<: *global-env
       NODE_ENV: development
