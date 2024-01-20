@@ -1,7 +1,7 @@
 # Stage 1: development
 FROM node:20 AS development
 
-RUN apt-get update && apt-get install -y openssl=3.2.0 --no-install-recommends
+RUN apt-get update && apt-get install -y openssl
 
 # create app directory
 WORKDIR /app

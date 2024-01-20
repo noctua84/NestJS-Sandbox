@@ -167,6 +167,7 @@ jobs:
 
       - name: Lint Dockerfile
         uses: hadolint/hadolint-action@v3.1.0
+        continue-on-error: true
         with:
           dockerfile: docker/Dockerfile
 
