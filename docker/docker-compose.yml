@@ -3,6 +3,13 @@
 # - api: The application instance.
 # - postgres: The database instance.
 # - tracing: A Jaeger instance for tracing.
+x-environment: &global-env
+  NODE_ENV: development
+  DB_USER: ${DB_USER}
+  DB_PASSWORD: ${DB_PASSWORD}
+  DB_NAME: ${DB_NAME}
+  DB_PORT: ${DB_PORT}
+
 services:
   # This will spin up an application instance in development mode.
   api:
@@ -15,6 +22,7 @@ services:
     env_file:
       - .env
     environment:
+      <<: *global-env
       NODE_ENV: development
       ENABLE_TRACING: "true"
       BASE_URL: https://${HOSTNAME}:${PORT}
@@ -49,6 +57,7 @@ services:
     image: postgres:16
     restart: always
     environment:
+      <<: *global-env
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
