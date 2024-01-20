@@ -3,7 +3,7 @@ FROM node:20 AS development
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends openssl=3.0.11-1
+    apt-get install -y --no-install-recommends openssl=3.0.11-1~deb12u2
 
 # create app directory
 WORKDIR /app
