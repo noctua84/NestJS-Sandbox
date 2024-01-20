@@ -196,6 +196,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Prepare .env
+        run: cp .env.example .env
+
       - name: Test Docker Compose
         run: docker-compose --file docker/docker-compose.yml --env-file .env config
 
