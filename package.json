@@ -65,7 +65,7 @@
     "@opentelemetry/sdk-trace-base": "^1.20.0",
     "@opentelemetry/sdk-trace-node": "^1.19.0",
     "@opentelemetry/semantic-conventions": "^1.19.0",
-    "@prisma/client": "^5.7.1",
+    "@prisma/client": "^5.8.1",
     "@prisma/instrumentation": "^5.8.0",
     "axios": "^1.6.5",
     "class-validator": "^0.14.0",
