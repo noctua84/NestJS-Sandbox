@@ -1,7 +1,7 @@
 name: Docker Pipeline
 
 on:
-  pushes:
+  push:
     branches:
       - main
     paths:
