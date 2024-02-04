@@ -1,0 +1,70 @@
+# This file is used to spin up the application stack in development mode.
+# It will spin up the following services:
+# - api: The application instance.
+# - postgres: The database instance.
+# - tracing: A Jaeger instance for tracing.
+x-environment: &global-env
+  NODE_ENV: development
+  DB_USER: ${DB_USER}
+  DB_PASSWORD: ${DB_PASSWORD}
+  DB_NAME: ${DB_NAME}
+  DB_PORT: ${DB_PORT}
+
+services:
+  # This will spin up an application instance in development mode.
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: development
+    volumes:
+      - .:/app
+    env_file:
+      - ../.env
+    environment:
+      <<: *global-env
+      NODE_ENV: development
+      ENABLE_TRACING: "true"
+      BASE_URL: https://${HOSTNAME}:${PORT}
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:${DB_PORT}/${DB_NAME}?schema=public
+    command: >
+      sh -c "npm run prisma:migrate:dev && npm run start:dev"
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+
+  # This will spin up a Jaeger instance for tracing. It can be used to monitor the application in development.
+  tracing:
+    image: jaegertracing/all-in-one
+    ports:
+      - 6831:6831/udp
+      - 6832:6832/udp
+      - 5778:5778
+      - 16686:16686
+      - 4317:4317
+      - 4318:4318
+      - 14250:14250
+      - 14268:14268
+      - 14269:14269
+      - 9411:9411
+    environment:
+      COLLECTOR_ZIPKIN_HOST_PORT: 9411
+      COLLECTOR_OTLP_ENABLED: "true"
+
+  # This will spin up a Postgres instance for the application to connect to.
+  postgres:
+    image: postgres:16
+    restart: always
+    environment:
+      <<: *global-env
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+volumes:
+  postgres:

@@ -17,4 +17,6 @@ describe('FeatureConfigService', () => {
     it('should be defined', () => {
         expect(service).toBeDefined();
     });
+
+    // TODO: write tests for isMetricsEnabled, isHealthCheckEnabled
 });

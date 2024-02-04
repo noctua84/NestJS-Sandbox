@@ -5,8 +5,11 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
+// create seed data here but keep in mind to use prisma query syntax
+
 async function main() {
     // Add your seeds here.
+    // If your seed data requires a certain order of creation, add them in the order you want them to be created.
 }
 
 main()

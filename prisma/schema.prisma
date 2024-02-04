@@ -3,7 +3,10 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["metrics", "postgresqlExtensions"]
+  previewFeatures = ["metrics", "postgresqlExtensions", "tracing"]
+  // binary targets are optional, omitting them will default to ["native"]
+  // the targets next to native, are for alpine linux and arm64 (Apple M1) respectively
+  binaryTargets   = ["native", "linux-musl", "linux-arm64-openssl-3.0.x"]
 }
 
 generator erd {

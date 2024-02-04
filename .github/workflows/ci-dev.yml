@@ -13,6 +13,9 @@ on:
       - feature/*
 
 jobs:
+  # This job will run the linting (ESLint).
+  # Any linting errors will be attempted to be fixed by the formatting job.
+  # If there are any changes, they will be committed and pushed to the repository.
   linting:
     name: Linting (ESLint)
     runs-on: ubuntu-latest
@@ -45,6 +48,9 @@ jobs:
           git commit -m "chore(eslint): Fix linting errors"
           git push
 
+  # This job will run the formatting (Prettier).
+  # Any formatting errors will be attempted to be fixed by the formatting job.
+  # If there are any changes, they will be committed and pushed to the repository.
   formatting:
     name: Formatting (Prettier)
     runs-on: ubuntu-latest
@@ -81,6 +87,7 @@ jobs:
           git commit -m "chore(prettier): Fix linting errors"
           git push
 
+  # This job will run the unit tests.
   unit_tests:
     name: Unit Tests
     runs-on: ubuntu-latest
@@ -100,6 +107,8 @@ jobs:
       - name: unit testing
         run: npm test
 
+  # This job will run the integration tests.
+  # These tests do not require a separate running instance of the application.
   e2e_tests:
     name: End to End Tests
     runs-on: ubuntu-latest
@@ -117,8 +126,15 @@ jobs:
         run: npm ci
 
       - name: End to End Tests
-        run: npm run test:e2e
+        env:
+          ENABLE_METRICS: true
+          ENABLE_HEALTH_CHECK: true
+          DATABASE_URL: "postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?schema=public"
+        run: |
+          npm run prisma:generate
+          npm run test:e2e
 
+  # This job will run the SonarCloud analysis.
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
@@ -140,3 +156,64 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  # This job will test the Dockerfile for errors
+  # It uses hadolint to lint the Dockerfile and trivy plus docker scan to scan the image for vulnerabilities.
+  docker:
+    name: Docker Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Lint Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: docker/Dockerfile
+
+      - name: Build Docker Image
+        run: docker build --no-cache --file docker/Dockerfile --target production --tag nestjs-sandbox:${GITHUB_SHA} .
+
+      - name: Scan Docker Image with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: "nestjs-sandbox:${{ github.sha }}"
+          exit-code: 1
+          vuln-type: "os,library"
+          format: "table"
+          ignore-unfixed: true
+          severity: "CRITICAL,HIGH"
+
+  # This job will generate and persist the ERD diagram.
+  erd:
+    name: ERD Diagram
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Generate ERD Diagram
+      run: npm run prisma:generate
+
+    - name: Check if ERD file has changed
+      id: check_erd_changes
+      run: git diff --quiet HEAD -- || echo "::set-output name=changed::true"
+
+    - name: Persist changes in code
+      if: steps.check_erd_changes.outputs.changed == 'true'
+      run: |
+        git add .
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+        git commit -m "chore(eslint): Update ERD diagram"
+        git push

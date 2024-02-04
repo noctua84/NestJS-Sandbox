@@ -1,33 +1,59 @@
-# Stage 1: Build the app
-FROM node:18 AS builder
+# Stage 1: development
+FROM node:20 AS development
 
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends openssl=3.0.11-1~deb12u2
+
+# create app directory
 WORKDIR /app
 
 # copy package.json and package-lock.json
-COPY package*.json ./
+COPY --chown=node:node package*.json ./
 
 # install dependencies
-RUN npm install
+RUN npm ci
 
 # copy source code
-COPY . .
+COPY --chown=node:node . .
 
-# build the app
-RUN npm run build
+# Generate Prisma client
+RUN npm run prisma:generate
+
+# Use the node user instead of root
+USER node
 
 #------------------------------------------------------------
-# Stage 2: Run the app
-FROM node:18-slim
+# Stage 2: build for production
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# copy package.json and package-lock.json
-COPY package*.json ./
+COPY --chown=node:node package*.json ./
 
-RUN npm install --only=production
+# The build process needs access to NestJS CLI, which is a dev dependency.
+COPY --chown=node:node --from=development /app/node_modules ./node_modules
 
-# copy build from stage 1
-COPY --from=builder /app/dist ./dist
+COPY --chown=node:node . .
+
+RUN npm run build
+
+ENV NODE_ENV=production
+
+# Install production dependencies overriding the previously copied node_modules:
+RUN npm ci --only=production && \
+    npm cache clean --force
+
+USER node
+
+# -----------------------------------------------------------
+# Stage 3: production
+FROM node:20-alpine AS production
+
+WORKDIR /
+
+COPY --chown=node:node --from=builder /app/node_modules ./node_modules
+COPY --chown=node:node --from=builder /app/dist ./dist
 
 # expose port 3000
 EXPOSE 3000

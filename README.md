@@ -9,7 +9,6 @@
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=bugs)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=noctua84_NestJS-Sandbox&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=noctua84_NestJS-Sandbox)
-
   
 # NestJS Sandbox API-App
 This application is mainly a playground to test technology concerning APIs and TypeScript.  
@@ -19,9 +18,13 @@ it might also be a useful source of inspiration or a staring point for your next
 To serve as a starting point, the repository is marked as a template.
   
 The applications' branching strategy roughly follows git-flow.  
-The main development branch is develop and everything finished lives in main. Frozen states will live under versions. It will also integrate commitizen for commits and release please to automate changelog and releases. The application also has a continous integration setup following along.  
+The main development branch is 'develop' and everything finished lives in 'main'.
+Frozen states will live under versions. 
+It also integrates commitizen for commits and release please changelog and release automation. 
+The application also has a continuous integration setup following along.  
 The app has two continuous integration pipelines: one for the main branch and one for the development branch. The one for the main branch runs coverage scans and build, as well as changlog and release, whereas the one for the development branch runs the tests, linting and formatting jobs.  
-A real continuous integration approach would do everything on the main branch and does not apply any specific branching strategy. This would though colide a bit with release please since it would create a new releas each time a 'fix' or 'feat' commit is done. That is why the ongoing development is done in a dedicated branch whereas the usable state is in the main branch and the releases. 
+A real continuous integration approach would do everything on the main branch and does not apply any specific branching strategy. 
+This would though collide a bit with release please since it would create a new release each time a 'fix' or 'feat' commit is done. That is why the ongoing development is done in a dedicated branch whereas the usable state is in the main branch and the releases. 
 
 ## NestJS and Microservices
 This application can be transformed into a microservice application by using the NestJS microservice module.
@@ -31,12 +34,14 @@ To transfer this application into a microservice, you need to do the following s
 - change the main.ts file to create a microservice instead of a web application.
   To achieve this, change this line ``` const app: INestApplication = await NestFactory.create(AppModule); ``` 
   to this line ``` const app: INestMicroservice = await NestFactory.createMicroservice(AppModule, { transport: Transport.TCP }); ```
-The default transport is TCP, but you can also use other transports like Redis, RabbitMQ or gRPC.
+The default transport is TCP, but you can also use other transports like Redis, RabbitMQ or gRPC.  
+A good source for health checks in microservices is [this](https://github.com/nestjs/terminus/blob/master/sample/002-microservice-app/src/health/health.controller.ts) example from nestjs/terminus
+as well as [this](https://github.com/nestjs/terminus/blob/master/sample/004-grpc-app/src/server/health/health.controller.ts) example for grpc.
 
 ## Tools used:
 - Pipelines:
   - GitHub Actions is used as the default pipeline runner. The repository has two different pipelines, one attached to the dev-branch and one to the main-branch.
-    - [CI-Dev(](./.github/workflows/ci-dev.yml): This pipeline runs tests, limiting and formatting it is triggered by any commit to the develop branch.
+    - [CI-Dev(](./.github/workflows/ci-dev.yml): This pipeline runs tests, limiting and formatting. It is triggered by any commit to the 'develop' branch.
     - [CI](./.github/workflows/ci.yml): This pipeline runs an additional dependency check, coverage, build and release steps.  
   - [CircleCI](https://www.circleci.com) is a pipeline runner like GitHub actions but with a different way to configure jobs. This is mainly for experimenting with different pipline types and configurations. (freemium tool) To remove or edit the integration, modify or delet the [CI config](./.circleci/config.yml)
 - Pipeline-Tools:
@@ -52,7 +57,14 @@ The default transport is TCP, but you can also use other transports like Redis, 
 - Environment-Management:
     - [dotenv-Vault](https://www.dotenv.org/docs) is a tool to securely distribute your environment configurations across platforms and teams. It is a new way to safely store environment variables. It works with an encrypted .env.vault file that is save to add to version controll and requires an account on dotenv.org. It is recommended though to set up your own account if you want to use your own .env config. See [here](#dotenv-vault) for more info about the integration into this app. (free tool)
     - As an alternative, you can also change the .env.example file to .env and add your values there. Use this approach if you don't want to use dotenv-vault.
-    - In order to fully use both approaches, the application makes use of dotenv-expand as well.
+    - To fully use both approaches, the application makes use of dotenv-expand as well.
+- Application state:
+    - [Opentelemetry](https://opentelemetry.io/) is a tool to trace and monitor your application (free tool). 
+      It also integrates well with tools like Jaeger, Prometheus, Grafana and Sentry. 
+      Opentelemetry has tracers for prisma, nestjs, express, http and many more.
+    - [Jaeger](https://www.jaegertracing.io/) is a tool to trace your application. It is used as a tracing and metrics collector for opentelemetry in development. (free tool)
+- Error handling:
+    - [Sentry](https://sentry.io/) is a tool to monitor your application and collect errors. It is used as a tracing collector for opentelemetry in production. (freemium tool)
 
 ## NestJS integrated tools:
 - [Read-Eval-Print-Loop(REPL)](docs.nestjs.com/recipes/repl) is a simple interactive environment for dependency graphs and trying out methods from providers and/or controllers from the terminal.
@@ -70,7 +82,21 @@ This section contains a list of features, that are implemented and/or planned. A
     - [x] Service method for summary
 - [x] Healthcheck with Terminus (certain endpoints and database)
   - [x] Healthcheck for root endpoint
-  - [ ] Healthcheck for a database
+  - [x] Healthcheck for certain endpoints
+    - [x] Healthcheck for metrics (optional)
+    - [x] Healthcheck for OpenAPI
+  - [x] Healthcheck for a database
+- [ ] tracing with opentelemetry
+  - [x] jaeger for development (metrics and tracing)
+  - [x] prometheus metrics for production
+  - [x] sentry 
+    - [x] for production (error handling and tracing)
+    - [x] for development (error handling)
+  - [ ] tracers
+    - [x] http
+    - [x] nestjs
+    - [x] prisma
+    - [x] express
 - [x] Database interaction with Prisma
   - [x] Enable prometheus metrics for prisma (usage)
   - [ ] Migrations
@@ -87,15 +113,15 @@ This section contains a list of features, that are implemented and/or planned. A
 - [x] Configuration schema and validation with Joi
 
 ## Deployment
-- [x] Dockerfile
+- [x] [Dockerfile](./docker/Dockerfile)
+- [x] [Docker-Compose (development)](./docker/docker-compose.yml)
 - [ ] Helm Chart
 
 ## Documentation:
 This section lists topics, that have their own file, where they are discussed in detail but in scope of the application.  
-  
-### [dotenv-vault](./documentation/dotenv-vault.md)
-### [Prisma ORM](./documentation/prisma-orm.md)
-### [Entity Relationship Diagram](./documentation/ERD.md)
+- [dotenv-vault](./documentation/dotenv-vault.md)  
+- [Prisma ORM](./documentation/prisma-orm.md)
+- [Entity Relationship Diagram](./documentation/ERD.md)
 
 
 
