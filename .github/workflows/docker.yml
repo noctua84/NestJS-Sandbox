@@ -40,7 +40,7 @@ jobs:
 
       - name: Install jq
         run: sudo apt-get install jq
-        
+
       - name: Check version change
         id: check_version
         run: |
@@ -68,9 +68,8 @@ jobs:
           echo "PACKAGE_NAME=$(jq -r '.name' package.json)" >> "$GITHUB_OUTPUT"
           echo "REPOSITORY_NAME=$(echo $GITHUB_REPOSITORY | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
 
-      - name: Build and push Docker image
+      - name: Build Docker image
         if: steps.check_version.outputs.version_changed != 'true'
-        id: docker_build
         uses: docker/build-push-action@v5
         env:
           PACKAGE_VERSION: ${{ steps.extract_info.outputs.PACKAGE_VERSION }}
@@ -79,9 +78,17 @@ jobs:
         with:
           context: .
           file: ./docker/Dockerfile
-          push: true
           tags: ghcr.io/${{ env.REPOSITORY_NAME }}/${{ env.PACKAGE_NAME }}:${{ env.PACKAGE_VERSION }}
           load: true
+
+      - name: Extract Docker image digest
+        if: steps.check_version.outputs.version_changed != 'true'
+        id: docker_build
+        run: echo "digest=$(docker inspect ghcr.io/${{ env.REPOSITORY_NAME }}/${{ env.PACKAGE_NAME }}:${{ env.PACKAGE_VERSION }} --format='{{index .RepoDigests 0}}')" >> "$GITHUB_OUTPUT"
+        
+      - name: Push Docker image
+        if: steps.check_version.outputs.version_changed != 'true'
+        run: docker push ghcr.io/${{ steps.extract_info.outputs.REPOSITORY_NAME }}/${{ steps.extract_info.outputs.PACKAGE_NAME }}:${{ steps.extract_info.outputs.PACKAGE_VERSION }}
 
       - name: Trigger Devtron Webhook
         if: steps.check_version.outputs.version_changed != 'true'
