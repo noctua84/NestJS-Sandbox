@@ -62,6 +62,8 @@ as well as [this](https://github.com/nestjs/terminus/blob/master/sample/004-grpc
       It also integrates well with tools like Jaeger, Prometheus, Grafana and Sentry. 
       Opentelemetry has tracers for prisma, nestjs, express, http and many more.
     - [Jaeger](https://www.jaegertracing.io/) is a tool to trace your application. It is used as a tracing and metrics collector for opentelemetry in development. (free tool)
+- Error handling:
+    - [Sentry](https://sentry.io/) is a tool to monitor your application and collect errors. It is used as a tracing collector for opentelemetry in production. (freemium tool)
 
 ## NestJS integrated tools:
 - [Read-Eval-Print-Loop(REPL)](docs.nestjs.com/recipes/repl) is a simple interactive environment for dependency graphs and trying out methods from providers and/or controllers from the terminal.
@@ -86,6 +88,9 @@ This section contains a list of features, that are implemented and/or planned. A
 - [ ] tracing with opentelemetry
   - [x] jaeger for development (metrics and tracing)
   - [x] prometheus metrics for production
+  - [x] sentry 
+    - [x] for production (error handling and tracing)
+    - [x] for development (error handling)
   - [ ] tracers
     - [x] http
     - [x] nestjs
