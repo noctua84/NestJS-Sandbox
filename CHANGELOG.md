@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.9.0](https://github.com/noctua84/NestJS-Sandbox/compare/v0.8.0...v0.9.0) (2024-02-08)
+
+
+### Features
+
+* **app module:** addad conditional loading of health checks, metrics and nestjs devtools ([9595c12](https://github.com/noctua84/NestJS-Sandbox/commit/9595c12c23c28968f6390c43b4987c745f904fdb))
+* **docker:** docker-compose for local development ([62c488c](https://github.com/noctua84/NestJS-Sandbox/commit/62c488c43cb791bb159f90eedc6933477b75acb3))
+* **feature config:** add logging and availability check to feature flags ([fbcebc2](https://github.com/noctua84/NestJS-Sandbox/commit/fbcebc2688cde074e2db72be915ff62da344ac4f))
+* **health check:** added conditional health checks for metrics endpoint ([7c16f78](https://github.com/noctua84/NestJS-Sandbox/commit/7c16f78f75ea11d549829c5aa9c645a53456aa54))
+* **health checks:** added health checks for database (prisma) ([b0a4bb8](https://github.com/noctua84/NestJS-Sandbox/commit/b0a4bb87646d543f99d86f07dbb0f00d97f102ab))
+* **sentry:** add sentry as error handling and monitoring tool ([1569508](https://github.com/noctua84/NestJS-Sandbox/commit/15695084b1d276a9146328d45a7b6bc6ee01036e))
+* **tracing:** added tracing with opentelemetry ([9264e5a](https://github.com/noctua84/NestJS-Sandbox/commit/9264e5a1ba57e5187c476e3a632f42623c45bc3c))
+
+
+### Bug Fixes
+
+* conditional check for adding route metrics middleware was not working as expected ([5b22750](https://github.com/noctua84/NestJS-Sandbox/commit/5b22750219846f924c202f3f8522d12bde32e230))
+* **docker-compose:** .env file was not detected correctly ([4a80eeb](https://github.com/noctua84/NestJS-Sandbox/commit/4a80eeb17353e107ecd5452d1213ae1c2cc51e6f))
+* **docker-compose:** specified global env section for cross container usage ([12c9b0f](https://github.com/noctua84/NestJS-Sandbox/commit/12c9b0f46cb4c59193306b10f711c51da497edda))
+* **docker:** .env location and added prisma migration command ([7e0c0f6](https://github.com/noctua84/NestJS-Sandbox/commit/7e0c0f68b095efcb4545d373d88b60913e3a979b))
+* **dockerfile:** added setting to apt get to not install other packages than to one needed., ([2b1265d](https://github.com/noctua84/NestJS-Sandbox/commit/2b1265d3dabb8ee66a7e7bf5bad9f302fddc93d1))
+* **dockerfile:** addressed some hadolint complaints ([faf3a52](https://github.com/noctua84/NestJS-Sandbox/commit/faf3a52381fe20f311d92f85c567e533b5e19021))
+* **feature config:** set type for enabled values to boolean instead of string/boolean ([042c556](https://github.com/noctua84/NestJS-Sandbox/commit/042c556f6ed02e5a317c55a00fbc2452a550b35c))
+
 ## [0.8.0](https://github.com/noctua84/NestJS-Sandbox/compare/v0.7.7...v0.8.0) (2024-01-03)
 
 
