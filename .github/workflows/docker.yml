@@ -84,6 +84,10 @@ jobs:
       - name: Extract Docker image digest
         if: steps.check_version.outputs.version_changed != 'true'
         id: docker_build
+        env:
+          PACKAGE_VERSION: ${{ steps.extract_info.outputs.PACKAGE_VERSION }}
+          PACKAGE_NAME: ${{ steps.extract_info.outputs.PACKAGE_NAME }}
+          REPOSITORY_NAME: ${{ steps.extract_info.outputs.REPOSITORY_NAME }}
         run: echo "digest=$(docker inspect ghcr.io/${{ env.REPOSITORY_NAME }}/${{ env.PACKAGE_NAME }}:${{ env.PACKAGE_VERSION }} --format='{{index .RepoDigests 0}}')" >> "$GITHUB_OUTPUT"
         
       - name: Push Docker image
@@ -92,6 +96,10 @@ jobs:
 
       - name: Trigger Devtron Webhook
         if: steps.check_version.outputs.version_changed != 'true'
+        env:
+          PACKAGE_VERSION: ${{ steps.extract_info.outputs.PACKAGE_VERSION }}
+          PACKAGE_NAME: ${{ steps.extract_info.outputs.PACKAGE_NAME }}
+          REPOSITORY_NAME: ${{ steps.extract_info.outputs.REPOSITORY_NAME }}
         run: |
           curl --location --request POST \
           'http://157.90.27.220:30673/orchestrator/webhook/ext-ci/1' \
