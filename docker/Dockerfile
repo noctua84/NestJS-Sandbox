@@ -18,7 +18,7 @@ RUN npm ci
 COPY --chown=node:node . .
 
 # Generate Prisma client
-RUN npm run prisma:generate
+RUN npx prisma generate
 
 # Use the node user instead of root
 USER node
@@ -40,10 +40,6 @@ RUN npm run build
 
 ENV NODE_ENV=production
 
-# Install production dependencies overriding the previously copied node_modules:
-RUN npm ci --only=production && \
-    npm cache clean --force
-
 USER node
 
 # -----------------------------------------------------------
@@ -54,6 +50,7 @@ WORKDIR /
 
 COPY --chown=node:node --from=builder /app/node_modules ./node_modules
 COPY --chown=node:node --from=builder /app/dist ./dist
+COPY --chown=node:node --from=builder /app/package*.json ./
 
 # expose port 3000
 EXPOSE 3000

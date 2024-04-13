@@ -3,32 +3,23 @@
 # - api: The application instance.
 # - postgres: The database instance.
 # - tracing: A Jaeger instance for tracing.
-x-environment: &global-env
-  NODE_ENV: development
-  DB_USER: ${DB_USER}
-  DB_PASSWORD: ${DB_PASSWORD}
-  DB_NAME: ${DB_NAME}
-  DB_PORT: ${DB_PORT}
-
 services:
   # This will spin up an application instance in development mode.
   api:
     build:
-      dockerfile: Dockerfile
-      context: .
+      dockerfile: docker/Dockerfile
+      context: ../
       target: development
-    volumes:
-      - .:/app
     env_file:
       - ../.env
     environment:
-      <<: *global-env
       NODE_ENV: development
       ENABLE_TRACING: "true"
-      BASE_URL: https://${HOSTNAME}:${PORT}
-      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:${DB_PORT}/${DB_NAME}?schema=public
+      ENABLE_HEALTH_CHECK: "true"
+      ENABLE_METRICS: "true"
+      DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/postgres?schema=public"
     command: >
-      sh -c "npm run prisma:migrate:dev && npm run start:dev"
+      sh -c "npm run prisma:migrate:dev &&  npm run start:dev"
     ports:
       - 3000:3000
     depends_on:
@@ -57,10 +48,9 @@ services:
     image: postgres:16
     restart: always
     environment:
-      <<: *global-env
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
     ports:
       - 5432:5432
     volumes:

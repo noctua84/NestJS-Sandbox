@@ -101,21 +101,32 @@ jobs:
           PACKAGE_NAME: ${{ steps.extract_info.outputs.PACKAGE_NAME }}
           REPOSITORY_NAME: ${{ steps.extract_info.outputs.REPOSITORY_NAME }}
         run: |
-          curl --location --request POST \
+          # generate JSON payload for Devtron webhook
+          JSON_PAYLOAD=$(jq -n \
+                  --arg dockerImage "ghcr.io/${{ env.REPOSITORY_NAME }}/${{ env.PACKAGE_NAME }}:${{ env.PACKAGE_VERSION }}" \
+                  --arg digest "${{ steps.docker_build.outputs.digest }}" \
+                  --arg commitHash "${{ github.sha }}" \
+                  --arg message "${{ github.event.head_commit.message }}" \
+                  --arg author "${{ github.actor }}" \
+                  --arg commitTime "${{ github.event.head_commit.timestamp }}" \
+                  '{
+                    "dockerImage": $dockerImage,
+                    "digest": $digest,
+                    "dataSource": "ext",
+                    "materialType": "git",
+                    "ciProjectDetails": [
+                      {
+                        "commitHash": $commitHash,
+                        "message": $message,
+                        "author": $author,
+                        "commitTime": $commitTime
+                      }
+                    ]
+                  }')
+          
+          # send the JSON payload to Devtron webhook
+          curl -f --location --request POST \
           'http://157.90.27.220:30673/orchestrator/webhook/ext-ci/1' \
           --header 'Content-Type: application/json' \
           --header "api-token: ${{ secrets.DEVTRON_API_TOKEN }}" \
-          --data-raw '{
-              "dockerImage": "ghcr.io/${{ env.REPOSITORY_NAME }}/${{ env.PACKAGE_NAME }}:${{ env.PACKAGE_VERSION }}",
-              "digest": "${{ steps.docker_build.outputs.digest }}",
-              "dataSource": "ext",
-              "materialType": "git",
-              "ciProjectDetails": [
-                  {
-                      "commitHash": "${{ github.sha }}",
-                      "message": "${{ github.event.head_commit.message }}",
-                      "author": "${{ github.actor }}",
-                      "commitTime": "${{ github.event.head_commit.timestamp }}"
-                  }
-              ]
-          }'
+          --data-raw "$JSON_PAYLOAD"
