@@ -68,7 +68,7 @@
     "@opentelemetry/semantic-conventions": "^1.21.0",
     "@prisma/client": "^5.9.1",
     "@prisma/instrumentation": "^5.9.1",
-    "@sentry/cli": "^2.30.2",
+    "@sentry/cli": "^2.31.1",
     "@sentry/node": "^7.112.2",
     "@sentry/opentelemetry": "^7.112.2",
     "axios": "^1.6.8",
