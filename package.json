@@ -85,7 +85,7 @@
     "@brakebein/prisma-generator-nestjs-dto": "^1.20.0",
     "@nestjs/cli": "^10.3.2",
     "@nestjs/schematics": "^10.1.1",
-    "@nestjs/testing": "^10.3.2",
+    "@nestjs/testing": "^10.3.8",
     "@types/express": "^4.17.21",
     "@types/jest": "29.5.12",
     "@types/node": "20.11.28",
