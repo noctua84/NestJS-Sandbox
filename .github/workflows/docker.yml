@@ -70,7 +70,7 @@ jobs:
 
       - name: Build Docker image
         if: steps.check_version.outputs.version_changed != 'true'
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         env:
           PACKAGE_VERSION: ${{ steps.extract_info.outputs.PACKAGE_VERSION }}
           PACKAGE_NAME: ${{ steps.extract_info.outputs.PACKAGE_NAME }}
