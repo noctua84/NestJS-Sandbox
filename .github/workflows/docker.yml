@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Checkout code
         if: env.stop_early != 'true'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Check for dependency updates
         id: check_updates
