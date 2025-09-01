@@ -69,7 +69,7 @@
     "@prisma/client": "^5.9.1",
     "@prisma/instrumentation": "^5.9.1",
     "@sentry/cli": "^2.31.1",
-    "@sentry/node": "^7.112.2",
+    "@sentry/node": "^10.8.0",
     "@sentry/opentelemetry": "^7.112.2",
     "axios": "^1.6.8",
     "class-validator": "^0.14.1",
